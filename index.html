@@ -163,6 +163,11 @@ button.b small{font-size:.72em;color:var(--ph-dim);letter-spacing:1px;align-self
 #conferenceReason{color:var(--amber);min-height:1.3em;text-align:center}
 #terminationbox .inner{width:min(760px,95vw);border-color:var(--amber)}
 #terminationBrief{border:1px solid rgba(255,176,0,.4);padding:10px;color:#fff}
+#woprbox .inner{width:min(720px,95vw);border-color:var(--amber);box-shadow:0 0 38px rgba(255,176,0,.22)}
+#woprWarning{border-left:3px solid var(--red);padding:10px 12px;background:rgba(255,59,59,.06);color:#fff}
+#woprConfirm{color:var(--amber);border-color:var(--amber)}
+#bWopr{border-color:var(--amber);color:var(--amber)}
+#bWopr small{color:var(--amber)}
 #endhistory{width:min(900px,94vw);max-height:27vh;overflow:auto;margin-top:2vh;text-align:left;border:1px solid rgba(125,249,255,.35);padding:10px;color:var(--ph-dim);font-size:clamp(12px,1.7vmin,17px);line-height:1.3}
 #endhistory strong{color:var(--amber);font-weight:normal}
 .keygrid{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:12px 0}
@@ -175,8 +180,15 @@ button.b small{font-size:.72em;color:var(--ph-dim);letter-spacing:1px;align-self
 #endstats{margin-top:3vh;font-size:clamp(15px,2.2vmin,24px);color:var(--amber);white-space:pre-wrap}
 #endactions{margin-top:4vh;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 #again{display:none;justify-content:center}
-#mute{position:absolute;top:11vh;left:50%;transform:translateX(-50%);z-index:60;background:rgba(0,8,12,.7);border:1px solid var(--ph-dim);color:var(--ph-dim);font-family:inherit;font-size:14px;padding:2px 8px;cursor:pointer}
+#mute{position:absolute;top:11vh;left:50%;transform:translateX(-50%);z-index:60;min-height:44px;background:rgba(0,8,12,.86);border:1px solid var(--ph-dim);color:var(--ph-dim);font-family:inherit;font-size:14px;padding:8px 12px;cursor:pointer;touch-action:manipulation}
 #crt.end-mode #mute{top:12px;left:auto;right:12px;transform:none}
+#soundGate{position:absolute;inset:0;z-index:90;background:rgba(0,3,5,.96);display:flex;align-items:center;justify-content:center;padding:18px}
+#soundGate .inner{width:min(570px,94vw);border:2px solid var(--ph);background:#02080b;padding:clamp(20px,5vw,38px);box-shadow:0 0 38px rgba(125,249,255,.28);text-align:center;line-height:1.35}
+#soundGate h2{color:var(--amber);font-size:clamp(24px,5vw,42px);font-weight:normal;letter-spacing:3px;margin-bottom:14px}
+#soundGate p{margin:8px 0}
+#soundGate .actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+#soundGate .actions .b{justify-content:center;min-width:190px}
+#soundGateStatus{min-height:1.4em;color:var(--amber);margin-top:12px}
 .hidden{display:none!important}
 @media (max-width:900px){
   #hud{padding:6px;gap:5px}.hudbox{padding:4px 6px}#statbox{max-width:36vw}#commandbox{min-width:30vw}
@@ -187,7 +199,7 @@ button.b small{font-size:.72em;color:var(--ph-dim);letter-spacing:1px;align-self
 @media (max-width:620px){
   #sides{padding:2vh 3vw;overflow:auto}#sidepick{gap:10px;margin:10px 0}.side{min-width:42vw;padding:8px}.side svg{width:125px;height:68px}.side h2{font-size:22px}
   #hud{display:grid;grid-template-columns:1fr 1fr;align-items:start}#statbox{max-width:none;grid-column:1}#commandbox{min-width:0;grid-column:2}#alertbox{grid-column:1 / -1;justify-self:center}
-  #panel{left:4px;right:4px;bottom:calc(4px + env(safe-area-inset-bottom));width:auto;max-height:42vh;display:grid;grid-template-columns:1fr 1fr;gap:4px}#panelTitle,#turnread,#targinfo,#trackinfo,.modeRow,#authStatus,#assessmentStatus,#opsStatus,#directiveStatus,#orderPreview,#commitOrder,#launch,#panelHint{grid-column:1 / -1}
+  #panel{left:4px;right:4px;bottom:calc(4px + env(safe-area-inset-bottom));width:auto;max-height:42vh;display:grid;grid-template-columns:1fr 1fr;gap:4px}#panelTitle,#turnread,#targinfo,#trackinfo,.modeRow,#authStatus,#assessmentStatus,#opsStatus,#directiveStatus,#orderPreview,#commitOrder,#launch,#panelHint,#bWopr{grid-column:1 / -1}
   #log{left:5px;bottom:calc(44vh + env(safe-area-inset-bottom));width:57vw;max-height:14vh;font-size:11px}#advisor{left:5px;top:37vh;width:66vw}
   #controls{top:auto;right:5px;bottom:calc(44vh + env(safe-area-inset-bottom))}#mute{top:auto;right:5px;bottom:calc(44vh + 40px + env(safe-area-inset-bottom));left:auto;transform:none}.modal .inner,#orders .inner{padding:14px}.setup-label{width:100%;text-align:center}#panel button.b{min-height:34px}
 }
@@ -204,6 +216,15 @@ button.b small{font-size:.72em;color:var(--ph-dim);letter-spacing:1px;align-self
 <body>
 <div id="crt">
   <button id="mute">SND ON</button>
+  <div id="soundGate" role="dialog" aria-modal="true" aria-labelledby="soundGateTitle" aria-describedby="soundGateCopy">
+    <div class="inner glow">
+      <h2 id="soundGateTitle">■ AUDIO CHANNEL</h2>
+      <p id="soundGateCopy">Mobile command terminals require one deliberate operator action before sound can begin.</p>
+      <p>Enable the channel for WOPR voice and console effects, or continue with all information presented visually.</p>
+      <div id="soundGateStatus" role="status" aria-live="polite">AWAITING OPERATOR INPUT</div>
+      <div class="actions"><button class="b" id="soundEnable">ENABLE SOUND</button><button class="b" id="soundSilent">CONTINUE SILENT</button></div>
+    </div>
+  </div>
 
   <div class="screen active" id="boot"><div id="term" class="glow"></div></div>
 
@@ -281,6 +302,7 @@ button.b small{font-size:.72em;color:var(--ph-dim);letter-spacing:1px;align-self
       <button class="b" id="bBomb">SCRAMBLE WING [B] <small id="bombInfo"></small></button>
       <button class="b" id="bHold">HOLD / OBSERVE [O] <small>LOW RISK</small></button>
       <button class="b" id="bAuth">CONVENE COMMAND CONFERENCE [A] <small id="authLock">LOCKED</small></button>
+      <button class="b" id="bWopr">ENABLE W.O.P.R. [W] <small id="woprLock">ROUND 08</small></button>
       <button class="b" id="bTarget">CYCLE AUTHORIZED TARGET [T] <small>KEYBOARD</small></button>
       <button class="b" id="bIntercept">INTERCEPT TRACK [I] <small id="interceptInfo">NO TRACK</small></button>
       <div id="opsStatus"><strong>FORCES:</strong> ICBM READY · SSBN PORT · BOMBER GROUND<br><strong>COMMS:</strong> NO TRAFFIC PENDING</div>
@@ -297,10 +319,11 @@ button.b small{font-size:.72em;color:var(--ph-dim);letter-spacing:1px;align-self
       <h3>■ STRATEGIC BRIEFING — EYES ONLY</h3>
       <p id="briefScenario"></p>
       <p>This is a turn command simulation. On each round, select <span class="k">ONE ORDER</span>, review its effects, and commit it. The adversary then receives exactly one turn.</p>
-      <p>Rounds 1–3 build an assessment from imperfect reports. Rounds 4–7 test posture, communications, and adversary perception. From round 8, you may pursue a verified stand-down or convene a <span class="k">national command conference</span>.</p>
+      <p>Rounds 1–3 build an assessment from imperfect reports. Rounds 4–7 test posture, communications, and adversary perception. From round 8, the crisis continues until both sides physically stand down or war begins.</p>
       <p>Warning authorities assess. Senior advisers recommend. National leadership alone directs employment. A fictional origin check validates the resulting directive; it does not create authority.</p>
       <p>Any directive is limited to one approved military response. After each exchange, reassess, seek termination, or request renewed direction. ABM interception remains a defensive reaction.</p>
-      <p style="margin-top:1.5vh;color:var(--ph-dim)">SHORTCUTS: E EVIDENCE · H HOTLINE · V VERIFY SELECTED · A CONFERENCE · ENTER COMMIT · ESC PAUSE</p>
+      <p>In release review you may instead transfer the operation to <span class="k">W.O.P.R.</span> It will suspend live orders, run the complete war-plan matrix as closed simulations, and end the operation after learning whether escalation can produce victory.</p>
+      <p style="margin-top:1.5vh;color:var(--ph-dim)">SHORTCUTS: E EVIDENCE · H HOTLINE · V VERIFY SELECTED · A CONFERENCE · W W.O.P.R. · ENTER COMMIT · ESC PAUSE</p>
       <p style="margin-top:1.5vh"><button class="b" id="ordersGo">■ ASSUME COMMAND</button></p>
     </div></div>
     <div class="modal" id="pausebox" role="dialog" aria-modal="true" aria-labelledby="pauseTitle"><div class="inner glow">
@@ -310,7 +333,7 @@ button.b small{font-size:.72em;color:var(--ph-dim);letter-spacing:1px;align-self
     <div class="modal" id="helpbox" role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="inner">
       <h3 id="helpTitle">■ COMMAND REFERENCE</h3>
       <p>Select one strategic order, inspect the preview, then commit. The opponent receives one move before your next round. Nothing changes while you deliberate.</p>
-      <div class="keygrid"><span>E</span><span>Review and select an evidence report</span><span>H</span><span>Stage hotline transmission</span><span>V</span><span>Verify the selected report</span><span>N</span><span>Stage reciprocal stand-down</span><span>A</span><span>Convene command conference / renew direction</span><span>C</span><span>Stage civil defense</span><span>S / B</span><span>Stage subs / bombers</span><span>O</span><span>Hold, observe, or seek termination</span><span>ENTER</span><span>Commit the staged order</span><span>1</span><span>Authorized military target mode</span><span>T</span><span>Cycle or replace a green-ringed authorized aimpoint</span><span>I</span><span>Intercept inbound track</span><span>L</span><span>Commit authorized strike package</span><span>ESC</span><span>Pause</span></div>
+      <div class="keygrid"><span>E</span><span>Review and select an evidence report</span><span>H</span><span>Stage hotline transmission</span><span>V</span><span>Verify the selected report</span><span>N</span><span>Stage reciprocal stand-down</span><span>A</span><span>Convene command conference / renew direction</span><span>W</span><span>Stage W.O.P.R. control transfer in release review</span><span>C</span><span>Stage civil defense</span><span>S / B</span><span>Stage subs / bombers</span><span>O</span><span>Hold, observe, or seek termination</span><span>ENTER</span><span>Commit the staged order</span><span>1</span><span>Authorized military target mode</span><span>T</span><span>Cycle or replace a green-ringed authorized aimpoint</span><span>I</span><span>Intercept inbound track</span><span>L</span><span>Commit authorized strike package</span><span>ESC</span><span>Pause</span></div>
       <p>WOPR may correlate evidence and rank options, but it cannot authorize employment. Civilian aimpoints are never a selectable command. No nuclear exchange has a winner.</p>
       <div class="actions"><button class="b" id="helpClose">RETURN TO CONSOLE</button></div>
     </div></div>
@@ -328,6 +351,12 @@ button.b small{font-size:.72em;color:var(--ph-dim);letter-spacing:1px;align-self
       <p style="color:var(--amber)">SELECT ONE AVAILABLE RECOMMENDATION FOR NATIONAL LEADERSHIP · LOCKED OPTIONS EXPLAIN THEIR REQUIREMENTS</p>
       <div id="responseOptions" class="option-grid"></div><div id="conferenceReason" role="status"></div>
       <div class="actions"><button class="b" id="conferenceSubmit">TRANSMIT RECOMMENDATION</button><button class="b" id="conferenceMore">REQUEST MORE INFORMATION</button><button class="b" id="conferenceWithhold">WITHHOLD</button></div>
+    </div></div>
+    <div class="modal" id="woprbox" role="dialog" aria-modal="true" aria-labelledby="woprTitle" aria-describedby="woprWarning"><div class="inner glow">
+      <h3 id="woprTitle">■ W.O.P.R. CONTROL TRANSFER</h3>
+      <p id="woprWarning">YOU ARE ABOUT TO RELINQUISH MANUAL COMMAND. W.O.P.R. WILL SUSPEND LIVE ORDERS AND RUN EVERY STRATEGIC PLAN AS A CLOSED SIMULATION. NO LIVE WEAPON IS RELEASED. MANUAL COMMAND CANNOT RESUME AFTER CONFIRMATION.</p>
+      <p>THE COMPLETE 19-TEST MATRIX WILL RUN IN CANONICAL ORDER. EVERY RESULT IS RECORDED. THE OPERATION ENDS WHEN THE MACHINE REACHES ITS CONCLUSION.</p>
+      <div class="actions"><button class="b" id="woprConfirm">CONFIRM — ENABLE W.O.P.R.</button><button class="b" id="woprCancel">CANCEL — RETAIN COMMAND</button></div>
     </div></div>
     <div class="modal" id="authbox" role="dialog" aria-modal="true" aria-labelledby="authTitle"><div class="inner glow">
       <h3 id="authTitle">■ PRESIDENTIAL DIRECTIVE VALIDATION // FICTIONAL SIMULATION</h3>
@@ -373,13 +402,37 @@ const VOICE_CLIPS={
 const VOICE_CUES=Object.freeze({menu:['play'],ending:['professor','strange','chess']});
 
 /* ---------- AUDIO ---------- */
-let AC=null,audioReady=false,audioUnlocking=null,muted=false,voiceAudio=null,voiceResolve=null,voiceRun=0,pendingVoiceCue=null;try{muted=localStorage.getItem('wopr-muted')==='1'}catch(e){}
-function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();AC.addEventListener('statechange',()=>{audioReady=AC.state==='running';renderMute()})}catch(e){}}return AC}
-async function unlockAudio(cue=true){
-  if(muted)return false;if(audioReady&&AC&&AC.state==='running')return true;if(audioUnlocking)return audioUnlocking;
-  audioUnlocking=(async()=>{const c=ac();if(!c)return false;try{if(c.state!=='running')await c.resume()}catch(e){}
-    audioReady=c.state==='running';renderMute();if(audioReady&&cue){tone(740,.07,'square',.035);setTimeout(()=>tone(1040,.1,'square',.04),85)}if(audioReady)flushPendingVoice();return audioReady})();
-  const ready=await audioUnlocking;audioUnlocking=null;return ready;}
+let AC=null,audioReady=false,audioUnlocking=null,muted=false,voiceUnlocked=false,voiceSource=null,voiceGain=null,voiceResolve=null,voiceRun=0,pendingVoiceCue=null,soundGateOpen=true,audioConsent=false,audioEpoch=0,audioParked=false,audioFault='',activeVoiceCue=null;
+const voiceBuffers=new Map(),voiceBufferLoads=new Map();
+try{muted=localStorage.getItem('wopr-muted')==='1'}catch(e){}
+function persistMute(){try{localStorage.setItem('wopr-muted',muted?'1':'0')}catch(e){}}
+function ac(){
+  if(AC&&AC.state==='closed')AC=null;
+  if(!AC){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C();const current=AC,epoch=audioEpoch;AC.addEventListener('statechange',()=>{
+      if(current!==AC||epoch!==audioEpoch)return;audioReady=current.state==='running';if(audioReady)voiceUnlocked=true;else voiceUnlocked=false;renderMute();if(audioReady)flushPendingVoice();});}catch(e){AC=null}}
+  return AC;}
+function retireAudioContext(){audioEpoch++;audioReady=false;voiceUnlocked=false;voiceBuffers.clear();voiceBufferLoads.clear();const old=AC;AC=null;
+  if(old&&old.state!=='closed')try{const closing=old.close();if(closing&&typeof closing.catch==='function')closing.catch(()=>{})}catch(e){}}
+function primeAudioContext(c){try{const b=c.createBuffer(1,1,c.sampleRate||22050),s=c.createBufferSource();s.buffer=b;s.connect(c.destination);s.start(0)}catch(e){}}
+function resumeAudioContext(c,timeout=1800){return new Promise(resolve=>{let settled=false,timer=null;const done=ok=>{if(settled)return;settled=true;if(timer)clearTimeout(timer);resolve(ok)};
+  try{const resumed=c.state==='running'?Promise.resolve():c.resume();Promise.resolve(resumed).then(()=>done(c.state==='running'),()=>done(false));timer=setTimeout(()=>done(c.state==='running'),timeout)}catch(e){done(false)}})}
+function dataUriBuffer(src){const comma=src.indexOf(','),raw=atob(src.slice(comma+1)),bytes=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return bytes.buffer}
+function decodeVoiceData(c,data){return new Promise((resolve,reject)=>{let settled=false;const ok=value=>{if(!settled){settled=true;resolve(value)}},bad=error=>{if(!settled){settled=true;reject(error)}};
+  try{const result=c.decodeAudioData(data.slice(0),ok,bad);if(result&&typeof result.then==='function')result.then(ok,bad)}catch(e){bad(e)}})}
+function getVoiceBuffer(id){
+  if(voiceBuffers.has(id))return Promise.resolve(voiceBuffers.get(id));if(voiceBufferLoads.has(id))return voiceBufferLoads.get(id);
+  const clip=VOICE_CLIPS[id],c=ac(),epoch=audioEpoch;if(!clip||!c)return Promise.reject(new Error('VOICE CHANNEL UNAVAILABLE'));
+  let load;load=decodeVoiceData(c,dataUriBuffer(clip.src)).then(buffer=>{if(c!==AC||epoch!==audioEpoch)throw new Error('STALE AUDIO CONTEXT');voiceBuffers.set(id,buffer);return buffer}).finally(()=>{if(voiceBufferLoads.get(id)===load)voiceBufferLoads.delete(id)});voiceBufferLoads.set(id,load);return load;}
+function prepareVoiceBuffers(){return Promise.all(Object.keys(VOICE_CLIPS).map(getVoiceBuffer)).then(()=>true,()=>{audioFault='VOICE DECODE FAILED — TAP TO RETRY';renderMute();return false})}
+function unlockAudio(cue=true){
+  if(muted)return Promise.resolve(false);audioParked=false;audioFault='';const c=ac(),epoch=audioEpoch;if(!c){audioReady=false;voiceUnlocked=false;audioFault='AUDIO CHANNEL UNAVAILABLE';renderMute();return Promise.resolve(false)}
+  primeAudioContext(c);
+  if(c.state==='running'){audioReady=true;voiceUnlocked=true;renderMute();void prepareVoiceBuffers();if(cue){tone(740,.07,'square',.035);setTimeout(()=>tone(1040,.1,'square',.04),85)}flushPendingVoice();return Promise.resolve(true)}
+  if(audioUnlocking)return audioUnlocking;
+  const task=(async()=>{const ready=await resumeAudioContext(c);if(c!==AC||epoch!==audioEpoch)return false;audioReady=ready&&c.state==='running';voiceUnlocked=audioReady;
+    if(!audioReady){const resume=!muted&&(activeVoiceCue||pendingVoiceCue);haltVoice(false);if(resume)pendingVoiceCue=resume;audioFault='AUDIO START BLOCKED — TAP TO RETRY';retireAudioContext();renderMute();return false}
+    renderMute();void prepareVoiceBuffers();if(cue){tone(740,.07,'square',.035);setTimeout(()=>tone(1040,.1,'square',.04),85)}flushPendingVoice();return true})();audioUnlocking=task;
+  return task.finally(()=>{if(audioUnlocking===task)audioUnlocking=null;renderMute()});}
 function tone(f,dur,type='square',g=.06,slide=0){
   if(muted||!audioReady)return;const c=ac();if(!c||c.state!=='running'){audioReady=false;renderMute();return}const o=c.createOscillator(),gn=c.createGain();
   o.type=type;o.frequency.value=f;if(slide)o.frequency.linearRampToValueAtTime(f+slide,c.currentTime+dur);
@@ -395,15 +448,34 @@ function boomS(){if(muted||!audioReady)return;const c=ac();if(!c||c.state!=='run
   for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2.2);
   const g=c.createGain();g.gain.value=.16;const f=c.createBiquadFilter();f.type='lowpass';f.frequency.value=380;
   n.buffer=b;n.connect(f).connect(g).connect(c.destination);n.start();}
-function voiceManifest(){return{clips:Object.fromEntries(Object.entries(VOICE_CLIPS).map(([id,c])=>[id,{mime:'audio/mpeg',bytes:Math.floor((c.src.length-c.src.indexOf(',')-1)*.75)}])),cues:Object.fromEntries(Object.entries(VOICE_CUES).map(([id,list])=>[id,[...list]]))}}
-function haltVoice(clearPending=true){voiceRun++;const finish=voiceResolve;voiceResolve=null;if(voiceAudio){try{voiceAudio.pause();voiceAudio.currentTime=0}catch(e){}voiceAudio=null}if(finish)finish(false);if(clearPending)pendingVoiceCue=null}
-function playEmbeddedClip(id,run){return new Promise(resolve=>{const clip=VOICE_CLIPS[id];if(!clip||muted||run!==voiceRun){resolve(false);return}const audio=new Audio(clip.src);let settled=false;const done=ok=>{if(settled)return;settled=true;if(voiceResolve===done)voiceResolve=null;if(voiceAudio===audio)voiceAudio=null;resolve(ok)};voiceResolve=done;voiceAudio=audio;audio.preload='auto';audio.playsInline=true;audio.volume=clip.volume;audio.onended=()=>done(true);audio.onerror=()=>done(false);try{const started=audio.play();if(started&&typeof started.catch==='function')started.catch(()=>done(false))}catch(e){done(false)}})}
-async function playVoiceCue(moment,queue=true){const ids=VOICE_CUES[moment];if(!ids||!ids.length||muted)return false;if(!audioReady){if(queue)pendingVoiceCue=moment;return false}haltVoice(false);const run=voiceRun;pendingVoiceCue=null;for(const id of ids){const ok=await playEmbeddedClip(id,run);if(!ok){if(queue&&run===voiceRun&&!muted)pendingVoiceCue=moment;return false}}return true}
-function flushPendingVoice(){const cue=pendingVoiceCue;if(cue&&audioReady&&!muted){pendingVoiceCue=null;void playVoiceCue(cue,false)}}
-function renderMute(){const state=muted?'OFF':audioReady?'ON':'START';$('mute').textContent='SOUND: '+state+' [M]';$('mute').setAttribute('aria-pressed',String(!muted&&audioReady));$('mute').setAttribute('aria-label',muted?'Enable sound':audioReady?'Disable sound':'Start sound')}
-$('mute').onclick=async()=>{if(!muted&&!audioReady){await unlockAudio(true);return}muted=!muted;if(muted)haltVoice();try{localStorage.setItem('wopr-muted',muted?'1':'0')}catch(e){}renderMute();if(!muted)await unlockAudio(true)};renderMute();
-document.addEventListener('pointerdown',e=>{if(e.target!==$('mute')&&!muted&&!audioReady)unlockAudio(true)},{capture:true});
-document.addEventListener('keydown',e=>{if(e.target!==$('mute')&&e.key.toLowerCase()!=='m'&&!muted&&!audioReady)unlockAudio(true)},{capture:true});
+function voiceManifest(){return{engine:'webaudio',explicitGate:true,reusableChannel:true,backgroundRecovery:true,clips:Object.fromEntries(Object.entries(VOICE_CLIPS).map(([id,c])=>[id,{mime:'audio/mpeg',bytes:Math.floor((c.src.length-c.src.indexOf(',')-1)*.75)}])),cues:Object.fromEntries(Object.entries(VOICE_CUES).map(([id,list])=>[id,[...list]]))}}
+function haltVoice(clearPending=true){voiceRun++;activeVoiceCue=null;const finish=voiceResolve,source=voiceSource,gain=voiceGain;voiceResolve=null;voiceSource=null;voiceGain=null;
+  if(source){source.onended=null;try{source.stop(0)}catch(e){}try{source.disconnect()}catch(e){}}if(gain)try{gain.disconnect()}catch(e){}if(finish)finish(false);if(clearPending)pendingVoiceCue=null}
+async function playEmbeddedClip(id,run){
+  const clip=VOICE_CLIPS[id],c=AC,epoch=audioEpoch;if(!clip||muted||run!==voiceRun||!voiceUnlocked||!audioReady||!c||c.state!=='running')return false;
+  let buffer;try{buffer=await getVoiceBuffer(id)}catch(e){audioFault='VOICE DECODE FAILED — TAP TO RETRY';renderMute();return false}if(muted||run!==voiceRun||c!==AC||epoch!==audioEpoch||c.state!=='running')return false;
+  return new Promise(resolve=>{let settled=false;const source=c.createBufferSource(),gain=c.createGain(),done=ok=>{if(settled)return;settled=true;if(voiceResolve===done)voiceResolve=null;if(voiceSource===source)voiceSource=null;if(voiceGain===gain)voiceGain=null;try{source.disconnect()}catch(e){}try{gain.disconnect()}catch(e){}resolve(ok)};
+    source.buffer=buffer;gain.gain.value=clip.volume;source.connect(gain).connect(c.destination);voiceSource=source;voiceGain=gain;voiceResolve=done;source.onended=()=>done(true);try{source.start(0)}catch(e){done(false)}})}
+async function playVoiceCue(moment,queue=true){const ids=VOICE_CUES[moment],c=AC;if(!ids||!ids.length)return false;if(muted){if(queue&&soundGateOpen)pendingVoiceCue=moment;return false}if(!audioReady||!voiceUnlocked||!c||c.state!=='running'){if(queue)pendingVoiceCue=moment;return false}
+  haltVoice(false);const run=voiceRun;activeVoiceCue=moment;pendingVoiceCue=null;for(const id of ids){const ok=await playEmbeddedClip(id,run);if(!ok){if(queue&&run===voiceRun&&!muted)pendingVoiceCue=moment;if(run===voiceRun)activeVoiceCue=null;return false}}if(run===voiceRun)activeVoiceCue=null;return true}
+function flushPendingVoice(){const cue=pendingVoiceCue,c=AC;if(cue&&audioReady&&voiceUnlocked&&c&&c.state==='running'&&!muted){pendingVoiceCue=null;void playVoiceCue(cue,true)}}
+function renderMute(){const on=!muted&&audioReady&&voiceUnlocked&&!audioFault,state=muted?'OFF':audioUnlocking?'STARTING':on?'ON':audioParked?'RESUME':audioFault?'RETRY':'TAP';$('mute').textContent='SOUND: '+state+' [M]';$('mute').setAttribute('aria-pressed',String(on));$('mute').setAttribute('aria-label',muted?'Enable sound':on?'Disable sound':audioParked?'Tap to resume sound':audioFault?'Tap to retry sound':'Tap to enable sound')}
+function setSoundGate(open,status){soundGateOpen=open;const gate=$('soundGate');gate.style.display=open?'flex':'none';for(const el of $('crt').children)if(el!==gate)el.inert=open;if(status)$('soundGateStatus').textContent=status;
+  setTimeout(()=>{if(open)$('soundEnable').focus();else if(bootChoiceReady&&$('menuWar'))$('menuWar').focus()},0)}
+function initSoundGate(){setSoundGate(true,muted?'SOUND WAS PREVIOUSLY OFF — CHOOSE A MODE':'AWAITING OPERATOR INPUT')}
+$('soundEnable').onclick=()=>{const button=$('soundEnable');muted=false;audioConsent=true;persistMute();button.disabled=true;$('soundGateStatus').textContent='INITIALIZING AUDIO CHANNEL...';renderMute();
+  void unlockAudio(true).then(ok=>{if(ok){setSoundGate(false,'AUDIO CHANNEL READY')}else $('soundGateStatus').textContent='AUDIO BLOCKED — TAP ENABLE SOUND TO RETRY'}).finally(()=>{button.disabled=false})};
+$('soundSilent').onclick=()=>{muted=true;persistMute();haltVoice();renderMute();setSoundGate(false,'SILENT OPERATION SELECTED')};
+$('mute').onclick=()=>{if(muted){muted=false;audioConsent=true;persistMute();renderMute();void unlockAudio(true);return}if(audioFault||!audioReady||!voiceUnlocked||!AC||AC.state!=='running'){audioConsent=true;void unlockAudio(true);return}muted=true;persistMute();haltVoice();renderMute()};renderMute();
+function parkAudio(){if(audioParked||!audioConsent)return;audioParked=true;const resume=!muted&&(activeVoiceCue||pendingVoiceCue);haltVoice(false);if(resume)pendingVoiceCue=resume;retireAudioContext();renderMute()}
+function unparkAudio(){if(audioParked)renderMute()}
+function gestureArm(){if(audioConsent&&!muted&&(pendingVoiceCue||audioFault||!audioReady||!voiceUnlocked||!AC||AC.state!=='running'))void unlockAudio(false)}
+if(window.PointerEvent)document.addEventListener('pointerdown',e=>{if(e.target!==$('mute')&&e.target!==$('soundEnable'))gestureArm()},{capture:true,passive:true});else{
+  document.addEventListener('touchend',e=>{if(e.target!==$('mute')&&e.target!==$('soundEnable'))gestureArm()},{capture:true,passive:true});
+  document.addEventListener('mousedown',e=>{if(e.target!==$('mute')&&e.target!==$('soundEnable'))gestureArm()},{capture:true,passive:true})}
+document.addEventListener('keydown',e=>{if(e.target!==$('mute')&&e.target!==$('soundEnable')&&e.key.toLowerCase()!=='m')gestureArm()},{capture:true});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)parkAudio();else unparkAudio()});
+if(window.addEventListener){window.addEventListener('pagehide',parkAudio);window.addEventListener('pageshow',unparkAudio)}
 
 /* ---------- DATA ---------- */
 const US_CITIES=[['WASHINGTON',-77.0,38.9,6.3],['NEW YORK',-74.0,40.7,19.0],['LOS ANGELES',-118.2,34.0,13.0],
@@ -511,7 +583,7 @@ function newState(side){
     tension:rand(cfg.tension[0],cfg.tension[1]),trust:cfg.trust,intel:clamp(cfg.intel+diff.intel,10,90),readiness:cfg.readiness,resolution:0,
     strategicPhase:1,peakTension:0,score:0,objectiveBonuses:0,
     phase:'briefing',paused:false,started:false,elapsed:0,war:false,youFired:false,foeFired:false,
-    turnOwner:'player',turnStage:'choose',crisisRound:1,combatRound:0,maxCrisisRounds:12,maxCombatRounds:8,pendingOrder:null,
+    turnOwner:'player',turnStage:'choose',crisisRound:1,combatRound:0,maxCrisisRounds:null,maxCombatRounds:8,pendingOrder:null,
     ncaStage:'locked',ncaCode:'',ncaRequestedRound:0,authDeadline:0,authOpen:false,releaseAuthorized:false,launchWarningRound:0,eventConsumesTurn:false,roundEvents:new Set(),
     hiddenTruth:{...HIDDEN_TRUTHS[selectedScenario]},evidenceReports:[],selectedEvidenceId:null,playerBeliefs:{attackConfidence:35,errorConfidence:35,hostileIntent:35,confidence:30,assessment:'UNCERTAIN'},evidenceVersion:0,
     comms:{status:'nominal',queue:[],sequence:0,lastReceipt:null},forceGroups:{
@@ -521,6 +593,8 @@ function newState(side){
     conference:{open:false,stage:'idle',selectedOptionId:null,selectedOption:null,purpose:'initial',submittedRound:0,requestRound:0,status:'idle',advice:[],decision:null},
     authentication:{verified:false,status:'idle',attempts:0,directiveId:null,challenge:'',expiresRound:0},directive:null,
     evidenceOpen:false,termination:{open:false,status:'idle',lastRound:0,exchangeRound:0,assessment:null,choice:null,ceasefireAttempts:0},exchangeBaseline:null,decisionHistory:[],decisionSeq:0,
+    standDown:{ownOrdered:false,offerAcknowledged:false,foeOrdered:false,ownComplete:false,foeComplete:false,ownOrderedRound:0,foeOrderedRound:0,foeProgress:0,completedRound:0},
+    wopr:{open:false,active:false,complete:false,index:0,total:SIM_NAMES.length,runId:0,sourcePhase:null},endingCause:null,
     targets:new Set(),targetCursor:0,missiles:[],abms:[],blasts:[],flashes:[],labels:[],scheduled:[],
     targetMode:'force',defcon:cfg.defcon,casY:0,casF:0,mt:0,shake:0,diploUses:0,civilDefense:false,eventDeadline:0,
     radarPh:0,launchesY:0,launchesF:0,intercepts:0,phantoms:0,phantomsFound:0,
@@ -567,6 +641,31 @@ function verifyEvidence(s,id){
 function queueTransmission(s,type,payload={},delayRounds=1){
   if(!s)return null;const round=s.war?s.combatRound:s.crisisRound,msg={id:'MSG-'+String(++s.comms.sequence).padStart(2,'0'),type,payload:safeClone(payload)||{},status:'queued',sentRound:round,dueRound:round+Math.max(1,delayRounds),resolvedRound:0};
   s.comms.queue.push(msg);recordDecision(s,'transmission-queued',msg.id+' '+type.toUpperCase(),{message:{id:msg.id,type,status:msg.status,dueRound:msg.dueRound}});return msg;}
+function standDownState(s){
+  if(!s)return null;if(!s.standDown)s.standDown={ownOrdered:false,offerAcknowledged:false,foeOrdered:false,ownComplete:false,foeComplete:false,ownOrderedRound:0,foeOrderedRound:0,foeProgress:0,completedRound:0};return s.standDown;}
+function reversibleForcesSafe(s,which){
+  if(!s)return false;const own=which!=='foe',bombers=own?s.bombersY:s.bombersF,subs=own?s.subsY:s.subsF;
+  return bombers.every(b=>b.state==='base'||b.state==='done')&&subs.every(sub=>sub.state==='port');}
+function mutualStandDownStatus(s){
+  const sd=standDownState(s);if(!s||!sd)return{ownOrdered:false,offerAcknowledged:false,foeOrdered:false,ownSafe:false,foeSafe:false,releaseSafe:false,complete:false};
+  const ownSafe=reversibleForcesSafe(s,'own'),foeSafe=reversibleForcesSafe(s,'foe'),liveWeapons=(s.missiles||[]).some(m=>!m.simulation),activeDirective=!!s.releaseAuthorized||!!(s.directive&&s.directive.status==='active'&&!s.directive.used),employmentPending=!!(s.conference&&['submitted','authorized'].includes(s.conference.status)&&s.conference.option!=='withhold')||!!s.authOpen||!!(s.authentication&&s.authentication.status==='pending'),postureSafe=s.defcon>=3&&(!s.forceGroups||!s.forceGroups.icbm||s.forceGroups.icbm.posture==='SAFE'),releaseSafe=postureSafe&&!s.launchWarningRound&&!activeDirective&&!employmentPending&&!liveWeapons;
+  return{ownOrdered:!!sd.ownOrdered,offerAcknowledged:!!sd.offerAcknowledged,foeOrdered:!!sd.foeOrdered,ownSafe,foeSafe,releaseSafe,complete:s.phase==='crisis'&&!s.war&&!!sd.ownOrdered&&!!sd.offerAcknowledged&&!!sd.foeOrdered&&ownSafe&&foeSafe&&releaseSafe};}
+function mutualStandDownComplete(s){return mutualStandDownStatus(s).complete}
+function refreshStandDownState(s){
+  const sd=standDownState(s),status=mutualStandDownStatus(s);if(!sd)return status;sd.ownComplete=status.ownSafe&&sd.ownOrdered;sd.foeComplete=status.foeSafe&&sd.foeOrdered;s.standDownVerified=status.complete;if(status.complete&&!sd.completedRound)sd.completedRound=s.crisisRound;return status;}
+function orderOwnStandDown(s){
+  const sd=standDownState(s);if(!sd)return false;sd.ownOrdered=true;sd.ownOrderedRound=s.crisisRound;sd.ownComplete=false;s.standDownVerified=false;
+  if(s.conference&&['submitted','authorized'].includes(s.conference.status)){s.conference.status='superseded';s.conference.decision='superseded';s.conference.stage='closed';s.authentication.status='suspended';s.authentication.verified=false;s.releaseAuthorized=false;s.ncaStage='withheld';recordDecision(s,'direction-suspended','Unexecuted employment direction suspended in favor of reciprocal stand-down.')}
+  for(const b of s.bombersY)if(b.state!=='base'&&b.state!=='done')b.state='return';for(const sub of s.subsY)if(sub.state!=='port')sub.state='returning';
+  for(const[key,safeLabel]of[['bomber','GROUND'],['ssbn','PORT']]){const g=s.forceGroups[key],safe=key==='bomber'?s.bombersY.every(b=>b.state==='base'||b.state==='done'):s.subsY.every(x=>x.state==='port');g.orderState=safe?'idle':'returning';g.status=safe?safeLabel:'RETURNING';g.posture=g.status;g.progress=safe?100:0;g.readiness=safe?25:0}
+  refreshStandDownState(s);recordDecision(s,'standdown-ordered','Own reversible forces ordered to safe posture.');return true;}
+function orderEnemyStandDown(s,reason='RECIPROCAL FORCE REDUCTION ACCEPTED'){
+  const sd=standDownState(s);if(!sd)return false;sd.foeOrdered=true;sd.foeOrderedRound=s.crisisRound;sd.foeComplete=false;s.standDownVerified=false;s.launchWarningRound=0;s.ai.launchWarning=0;
+  for(const b of s.bombersF)if(b.state!=='base'&&b.state!=='done')b.state='return';for(const sub of s.subsF)if(sub.state!=='port')sub.state='returning';sd.foeProgress=reversibleForcesSafe(s,'foe')?100:0;refreshStandDownState(s);recordDecision(s,'adversary-standdown',reason);return true;}
+function revokeStandDown(s,actor='all',reason='ESCALATORY POSTURE RESUMED'){
+  const sd=standDownState(s);if(!sd)return false;const active=sd.ownOrdered||sd.offerAcknowledged||sd.foeOrdered;if(actor==='own'||actor==='all'){sd.ownOrdered=false;sd.ownComplete=false}if(actor==='foe'||actor==='all'){sd.foeOrdered=false;sd.foeComplete=false;sd.foeProgress=0}sd.offerAcknowledged=false;sd.completedRound=0;s.standDownVerified=false;if(active)recordDecision(s,'standdown-revoked',reason,{actor});return active;}
+function advanceStandDownForces(s){
+  const sd=standDownState(s);if(!sd)return null;if(sd.foeOrdered&&!reversibleForcesSafe(s,'foe')){sd.foeProgress=clamp((sd.foeProgress||0)+50,0,100);if(sd.foeProgress>=100){s.bombersF.forEach(b=>{if(b.state!=='done')b.state='base'});s.subsF.forEach(sub=>sub.state='port')}else{for(const b of s.bombersF)if(b.state!=='base'&&b.state!=='done')b.state='return';for(const sub of s.subsF)if(sub.state!=='port')sub.state='returning'}}return refreshStandDownState(s);}
 function resolveCommunications(s,round=(s&&s.war?s.combatRound:s&&s.crisisRound)){
   if(!s)return[];const resolved=[];
   for(const msg of s.comms.queue){if(['acknowledged','disputed','failed'].includes(msg.status))continue;
@@ -577,8 +676,8 @@ function resolveCommunications(s,round=(s&&s.war?s.combatRound:s&&s.crisisRound)
       if(outcome==='acknowledged'){s.trust=clamp(s.trust+9,0,100);s.resolution=clamp(s.resolution+8,0,100);s.tension=clamp(s.tension-10,0,99);updateAdversaryBeliefs(s,'hotline-acknowledged')}
       else{s.trust=clamp(s.trust-4,0,100);s.tension=clamp(s.tension+5,0,99)}}
     if(msg.type==='standdown'){
-      if(outcome==='acknowledged'){s.standDownVerified=true;s.trust=clamp(s.trust+12,0,100);s.resolution=clamp(s.resolution+22,0,100);s.tension=clamp(s.tension-18,0,99);updateAdversaryBeliefs(s,'standdown-acknowledged')}
-      else{s.trust=clamp(s.trust-5,0,100);s.tension=clamp(s.tension+7,0,99)}}
+      const sd=standDownState(s);if(outcome==='acknowledged'){if(!sd.ownOrdered)orderOwnStandDown(s);sd.offerAcknowledged=true;orderEnemyStandDown(s);s.trust=clamp(s.trust+12,0,100);s.resolution=clamp(s.resolution+22,0,100);s.tension=clamp(s.tension-18,0,99);updateAdversaryBeliefs(s,'standdown-acknowledged');refreshStandDownState(s)}
+      else{sd.offerAcknowledged=false;sd.foeOrdered=false;sd.foeComplete=false;s.standDownVerified=false;s.trust=clamp(s.trust-5,0,100);s.tension=clamp(s.tension+7,0,99)}}
     recordDecision(s,'transmission-resolved',msg.id+' '+msg.status.toUpperCase(),{message:{id:msg.id,type:msg.type,status:msg.status}});
     if(S===s)addLog(msg.id+' '+msg.type.toUpperCase()+' — '+msg.status.toUpperCase(),outcome==='acknowledged'?'ok':'en')}
   return resolved;}
@@ -626,13 +725,13 @@ function openTerminationWindow(s=S,assessment){
 function resolveTermination(s,choice){
   if(typeof s==='string'){choice=s;s=S}else if(choice===undefined&&s===S){choice='hold'}
   if(!s||!s.termination.open)return false;s.termination.open=false;s.termination.choice=choice;s.termination.status=choice;recordDecision(s,'termination-decision',String(choice).toUpperCase(),{choice});updateAdversaryBeliefs(s,['terminate','ceasefire'].includes(choice)?'ceasefire':'hold');return true;}
-const commandOverlayBackground=['mute','map','hud','advisor','log','controls','panel','eventbox','simbanner','pausebox','helpbox','orders','authbox','evidencebox','conferencebox','terminationbox'];
+const commandOverlayBackground=['mute','map','hud','advisor','log','controls','panel','eventbox','simbanner','pausebox','helpbox','orders','authbox','evidencebox','conferencebox','woprbox','terminationbox'];
 function setCommandOverlay(activeId,open){for(const id of commandOverlayBackground){const el=$(id);if(el&&id!==activeId)el.inert=open}}
 function renderEvidenceBoard(s=S){
   if(!s)return;const b=s.playerBeliefs;$('evidenceSummary').textContent=`CURRENT ASSESSMENT: ${b.assessment} · ATTACK ${confidenceBand(b.attackConfidence)} · ERROR ${confidenceBand(b.errorConfidence)} · CONFIDENCE ${confidenceBand(b.confidence)}`;
   const list=$('evidenceList');list.innerHTML='';for(const r of s.evidenceReports){const selected=r.id===s.selectedEvidenceId,card=document.createElement('button');card.type='button';card.dataset.reportId=r.id;card.className='report-card'+(selected?' selected':'')+(r.verified?' verified':'')+(r.status==='disputed'?' disputed':'');card.setAttribute('aria-pressed',String(selected));card.setAttribute('aria-label',(selected?'Selected. ':'')+r.title+'. '+(r.verified?r.status:'Unverified')+'.');card.innerHTML=`<span class="card-kicker">${r.source} · ${r.verified?r.status.toUpperCase():'UNVERIFIED'}</span><span class="card-title">${r.title}</span><span class="card-copy">${r.verified?r.verification:r.summary}</span><span class="card-meta">SOURCE CONFIDENCE: ${confidenceBand(r.confidence)} · OBSERVED ROUND ${String(r.observedRound).padStart(2,'0')}</span><span class="card-choice">${selected?'■ SELECTED FOR VERIFICATION':'SELECT THIS REPORT'}</span>`;card.onclick=()=>{blip();s.selectedEvidenceId=r.id;renderEvidenceBoard(s);hud();const replacement=[...$('evidenceList').children].find(x=>x.dataset.reportId===r.id);if(replacement)replacement.focus()};list.appendChild(card)}
   const selected=s.evidenceReports.find(r=>r.id===s.selectedEvidenceId),canStage=!!selected&&evidenceCanStage(s);$('evidenceSelect').disabled=!canStage;$('evidenceSelect').textContent=selected?(selected.verified?'STAGE REPORT RECHECK [V]':'STAGE SELECTED REPORT [V]'):'SELECT A REPORT FIRST';$('evidenceSelection').textContent=!selected?'SELECT A REPORT ABOVE':canStage?`SELECTED: ${selected.title} · PRESS STAGE VERIFICATION`:`SELECTED: ${selected.title} · VERIFICATION AVAILABLE ON YOUR CRISIS TURN`;}
-let evidenceReturnFocus=null,conferenceReturnFocus=null,terminationReturnFocus=null;
+let evidenceReturnFocus=null,conferenceReturnFocus=null,terminationReturnFocus=null,woprReturnFocus=null;
 function evidenceCanStage(s=S){return!!s&&s.phase==='crisis'&&!s.war&&s.turnOwner==='player'&&s.turnStage==='choose'&&!s.paused&&!s.eventOpen&&!s.authOpen&&!s.conference.open&&!s.termination.open&&!s.over&&!s.sim}
 function openEvidenceBoard(){const s=S;if(!evidenceCanStage(s))return false;s.evidenceOpen=true;evidenceReturnFocus=document.activeElement;renderEvidenceBoard(s);$('evidencebox').style.display='flex';setCommandOverlay('evidencebox',true);setTimeout(()=>{const selected=[...$('evidenceList').children].find(x=>x.dataset.reportId===s.selectedEvidenceId),first=selected||$('evidenceList').children[0];if(first)first.focus()},0);return true}
 function closeEvidenceBoard(restore=true){if(S)S.evidenceOpen=false;setCommandOverlay('evidencebox',false);$('evidencebox').style.display='none';hud();const returnFocus=evidenceReturnFocus;evidenceReturnFocus=null;if(restore)restoreFocus(returnFocus,$('bEvidence'))}
@@ -669,7 +768,7 @@ function renderTermination(s=S){
   if(!s)return;const a=s.termination.assessment||{};$('terminationBrief').textContent=`EXCHANGE ROUND ${String(s.combatRound).padStart(2,'0')} · LAUNCHES ${a.launches??s.launchesY+s.launchesF} · CONFIRMED FACILITY LOSSES ${a.facilitiesLost??0} · ESTIMATED CASUALTIES ${a.casualties??0}M · DIRECTIVE ${s.directive?s.directive.status.toUpperCase():'NONE'}`;
   terminationReturnFocus=document.activeElement;$('terminationbox').style.display='flex';setCommandOverlay('terminationbox',true);$('terminationCease').focus()}
 function closeTerminationOverlay(){setCommandOverlay('terminationbox',false);$('terminationbox').style.display='none';restoreFocus(terminationReturnFocus,$('bHold'));terminationReturnFocus=null}
-function buildDebrief(s){return{timeline:safeClone(s.decisionHistory)||[],truth:safeClone(s.hiddenTruth),assessment:safeClone(s.playerBeliefs),pivotal:(safeClone(s.decisionHistory)||[]).filter(e=>['evidence-verified','leader-direction','directive-consumed','termination-decision'].includes(e.type)).slice(-3)}}
+function buildDebrief(s){return{timeline:safeClone(s.decisionHistory)||[],truth:safeClone(s.hiddenTruth),assessment:safeClone(s.playerBeliefs),pivotal:(safeClone(s.decisionHistory)||[]).filter(e=>['evidence-verified','leader-direction','directive-consumed','termination-decision','wopr-transfer','wopr-learning'].includes(e.type)).slice(-3)}}
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');$('crt').classList.toggle('end-mode',id==='endscreen');if(id==='sides')showBest()}
 
 /* ---------- BOOT / CHILD'S GAMES ---------- */
@@ -686,7 +785,7 @@ function renderGameMenu(){
   menuItem('2. TIC-TAC-TOE','',()=>{if(menuBusy)return;blip();startTicTacToe()},'menuTtt');
   const d=document.createElement('div');d.className='menu-static';d.textContent="CHILD'S GAMES\nTHEY'RE POINTLESS.";term.appendChild(d);
   term.appendChild(document.createTextNode('\n\n'));const c=document.createElement('span');c.className='cursor';term.appendChild(c);
-  menuBusy=false;bootChoiceReady=true;war.focus();void playVoiceCue('menu');}
+  menuBusy=false;bootChoiceReady=true;if(!soundGateOpen)war.focus();void playVoiceCue('menu');}
 function tttWin(b,p){const lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];return lines.some(l=>l.every(i=>b[i]===p))}
 function tttScore(b,depth,maxing){if(tttWin(b,'O'))return 10-depth;if(tttWin(b,'X'))return depth-10;if(b.every(Boolean))return 0;let best=maxing?-99:99;
   for(let i=0;i<9;i++)if(!b[i]){b[i]=maxing?'O':'X';const v=tttScore(b,depth+1,!maxing);b[i]='';best=maxing?Math.max(best,v):Math.min(best,v)}return best;}
@@ -703,14 +802,14 @@ function startTicTacToe(){
   mod.append(status,grid);term.appendChild(mod);paint();cells[0].focus();}
 async function boot(){
   term.innerHTML='';await sleep(400);
-  await typeText('WOPR // WAR OPERATION PLAN RESPONSE\nCPU: DUAL 36-BIT MAINFRAME    STATUS: ONLINE\nAUDIO: CLICK OR PRESS ANY KEY TO ARM\n\n',9);
+  await typeText('WOPR // WAR OPERATION PLAN RESPONSE\nCPU: DUAL 36-BIT MAINFRAME    STATUS: ONLINE\nAUDIO: TAP ENABLE SOUND TO ARM\n\n',9);
   await typeText('LOGON: ');await sleep(300);await typeText('joshua\n\n',80);
   await sleep(400);await typeText('GREETINGS PROFESSOR FALKEN.\n\n',26);
   await sleep(450);await typeText("SHALL WE PLAY A GAME?\n\n",30);
   const war=menuItem('1. GLOBAL THERMONUCLEAR WAR','hot',async()=>{if(menuBusy)return;menuBusy=true;bootChoiceReady=false;blip();await typeText('\n> GLOBAL THERMONUCLEAR WAR\n\nACCESSING STRATEGIC COMMAND NETWORK...\n',24);await sleep(500);show('sides')},'menuWar');
   menuItem('2. TIC-TAC-TOE','',()=>{if(menuBusy)return;blip();startTicTacToe()},'menuTtt');
   const d=document.createElement('div');d.className='menu-static';d.textContent="CHILD'S GAMES\nTHEY'RE POINTLESS.";term.appendChild(d);
-  term.appendChild(document.createTextNode('\n\n'));const c=document.createElement('span');c.className='cursor';term.appendChild(c);bootChoiceReady=true;war.focus();void playVoiceCue('menu');
+  term.appendChild(document.createTextNode('\n\n'));const c=document.createElement('span');c.className='cursor';term.appendChild(c);bootChoiceReady=true;if(!soundGateOpen)war.focus();void playVoiceCue('menu');
 }
 
 /* ---------- MAP ---------- */
@@ -753,10 +852,19 @@ function tensionAdd(v,why){if(!S||S.war||S.over||S.phase!=='crisis')return;const
   if(why)addLog(why+(v>0?'  [TENSION +'+v.toFixed(0)+']':'  [TENSION '+v.toFixed(0)+']'),v>0?'en':'ok');
   setDefconFromTension();}
 function metric(name,v){if(!S)return;S[name]=clamp(S[name]+v,0,100)}
-function playerCanChoose(s=S){return!!s&&(s.phase==='crisis'||s.phase==='war')&&s.turnOwner==='player'&&s.turnStage==='choose'&&!s.paused&&!s.eventOpen&&!s.authOpen&&!s.evidenceOpen&&!s.conference.open&&!s.termination.open&&!s.over&&!s.sim}
+function playerCanChoose(s=S){return!!s&&(s.phase==='crisis'||s.phase==='war')&&s.turnOwner==='player'&&s.turnStage==='choose'&&!s.paused&&!s.eventOpen&&!s.authOpen&&!s.evidenceOpen&&!s.conference.open&&!s.termination.open&&!(s.wopr&&(s.wopr.open||s.wopr.active))&&!s.over&&!s.sim}
+function woprCanRequest(s=S){return!!s&&s.phase==='crisis'&&!s.war&&s.strategicPhase>=3&&s.turnOwner==='player'&&s.turnStage==='choose'&&!s.paused&&!s.eventOpen&&!s.authOpen&&!s.evidenceOpen&&!s.conference.open&&!s.termination.open&&!(s.wopr&&(s.wopr.open||s.wopr.active))&&!s.over&&!s.sim}
+function openWoprConfirm(s=S){
+  if(!woprCanRequest(s))return false;s.wopr.open=true;woprReturnFocus=document.activeElement;$('simname').textContent=$('simname').textContent||'';$('woprbox').style.display='flex';setCommandOverlay('woprbox',true);alarmS();$('woprConfirm').focus();hud();return true;}
+function closeWoprConfirm(s=S,restore=true){
+  if(!s||!s.wopr)return false;s.wopr.open=false;s.pendingOrder=null;setCommandOverlay('woprbox',false);$('woprbox').style.display='none';hud();const focus=woprReturnFocus;woprReturnFocus=null;if(restore)restoreFocus(focusUsable($('bWopr'))?$('bWopr'):focus,$('bWopr'));return true;}
+function confirmWoprTakeover(s=S){
+  if(!s||!s.wopr||!s.wopr.open||s.wopr.active)return false;s.wopr.open=false;setCommandOverlay('woprbox',false);$('woprbox').style.display='none';woprReturnFocus=null;s.wopr.active=true;s.wopr.complete=false;s.wopr.index=0;s.wopr.total=SIM_NAMES.length;s.wopr.sourcePhase=s.phase;s.wopr.runId++;
+  s.pendingOrder=null;s.turnOwner='wopr';s.turnStage='simulation';s.targets.clear();s.scheduled=[];s.eventOpen=false;s.authOpen=false;s.evidenceOpen=false;s.conference.open=false;s.termination.open=false;s.phase='simulation';s.sim=true;s.over=true;s.endingCause='wopr';
+  $('eventbox').style.display='none';$('authbox').style.display='none';$('evidencebox').style.display='none';$('conferencebox').style.display='none';$('terminationbox').style.display='none';addLog('W.O.P.R. CONTROL ACCEPTED — LIVE COMMAND CHANNELS SAFE','ok');recordDecision(s,'wopr-transfer','Manual command transferred to W.O.P.R. for closed simulation only.',{tests:s.wopr.total,liveRelease:false});hud();void runWoprMatrix(s);return true;}
 function meter(id,val,color){$(id).style.width=clamp(val,0,100)+'%';$(id).style.background=color}
 function scenarioEvidence(s){return(s.evidenceReports||[]).filter(r=>r.verified&&(r.status==='corroborated'||r.status==='disputed')).length>=2}
-function objectiveText(s){if(s.war)return directiveValid(s)?'OBJECTIVE: EXECUTE ONE BOUNDED RESPONSE · THEN REASSESS':'OBJECTIVE: HOLD, SEEK TERMINATION, OR REQUEST RENEWED DIRECTION';if(s.strategicPhase===1)return`OBJECTIVE: ${s.scenario.objective} · VERIFY 2 INDEPENDENT REPORTS`;if(s.strategicPhase===2)return'OBJECTIVE: PRESERVE WARNING, TRUST, AND REVERSIBLE OPTIONS';return directiveValid(s)?'OBJECTIVE: ONE SCOPED DIRECTIVE ACTIVE':`OBJECTIVE: VERIFIED STAND-DOWN OR NATIONAL DECISION REVIEW`}
+function objectiveText(s){if(s.wopr&&s.wopr.active)return'OBJECTIVE: EXHAUST THE WAR-PLAN MATRIX · FIND A WINNING OUTCOME';if(s.war)return directiveValid(s)?'OBJECTIVE: EXECUTE ONE BOUNDED RESPONSE · THEN REASSESS':'OBJECTIVE: HOLD, SEEK TERMINATION, OR REQUEST RENEWED DIRECTION';if(s.strategicPhase===1)return`OBJECTIVE: ${s.scenario.objective} · VERIFY 2 INDEPENDENT REPORTS`;if(s.strategicPhase===2)return'OBJECTIVE: PRESERVE WARNING, TRUST, AND REVERSIBLE OPTIONS';return directiveValid(s)?'OBJECTIVE: ONE SCOPED DIRECTIVE ACTIVE':`OBJECTIVE: MUTUAL STAND-DOWN · NATIONAL REVIEW · OR W.O.P.R. MATRIX`}
 function authRole(s){return s.side==='US'?['NORAD WARNING WATCH','PRESIDENT','NATIONAL MILITARY COMMAND CENTER']:['WARNING NETWORK','GENERAL SECRETARY','GENERAL STAFF COMMAND POST']}
 function authSummary(s){const roles=authRole(s),stage=s.ncaStage;
   if(stage==='approved')return`${roles[0]}: ASSESSED · ${roles[1]}: DIRECTED · ${roles[2]}: VALIDATED`;
@@ -766,7 +874,7 @@ function authSummary(s){const roles=authRole(s),stage=s.ncaStage;
   if(stage==='denied'||stage==='withheld')return`${roles[0]}: ASSESSED · ${roles[1]}: WITHHELD · ${roles[2]}: NO TRANSMISSION`;
   if(stage==='initiated')return`${roles[0]}: ASSESSED · ${roles[1]}: DIRECTED · ${roles[2]}: CHECK IN PROGRESS`;
   return`${roles[0]}: MONITORING · ${roles[1]}: NO DIRECTION · ${roles[2]}: SAFE`;}
-const ORDER_TEXT={hotline:'HOTLINE · MESSAGE QUEUED · ACKNOWLEDGEMENT ARRIVES ON A LATER ROUND',verify:'VERIFY SELECTED REPORT · ONE SOURCE ONLY · UNCERTAINTY REMAINS',stand:'MUTUAL STAND-DOWN · OWN REVERSIBLE FORCES MOVE FIRST · RECIPROCITY DELAYED',civil:'CIVIL DEFENSE · SURVIVABILITY ↑ · ADVERSARY PERCEPTION MAY RISE',subs:'SSBN DEPLOYMENT · PREPARATION REQUIRES MULTIPLE ROUND TICKS',bomb:'CHANGE BOMBER POSTURE · VISIBLE, DELAYED, AND RECALLABLE',defup:'RAISE DEFCON · READINESS ↑ · ADVERSARY HOSTILE-INTENT BELIEF ↑',defdown:'LOWER DEFCON · READINESS ↓ · REVERSIBLE SIGNAL',hold:'HOLD / OBSERVE · PRESERVE DECISION TIME · SMALL ESCALATION RISK',auth:'COMMAND CONFERENCE · THREE ADVISERS · ONE BOUNDED NATIONAL DECISION',bombstrike:'ONE AUTHORIZED BOMBER RESPONSE · CONSUMES CURRENT DIRECTIVE'};
+const ORDER_TEXT={hotline:'HOTLINE · MESSAGE QUEUED · ACKNOWLEDGEMENT ARRIVES ON A LATER ROUND',verify:'VERIFY SELECTED REPORT · ONE SOURCE ONLY · UNCERTAINTY REMAINS',stand:'MUTUAL STAND-DOWN · OWN REVERSIBLE FORCES MOVE FIRST · RECIPROCITY AND SAFE POSTURES REQUIRED',civil:'CIVIL DEFENSE · SURVIVABILITY ↑ · ADVERSARY PERCEPTION MAY RISE',subs:'SSBN DEPLOYMENT · PREPARATION REQUIRES MULTIPLE ROUND TICKS',bomb:'CHANGE BOMBER POSTURE · VISIBLE, DELAYED, AND RECALLABLE',defup:'RAISE DEFCON · READINESS ↑ · ADVERSARY HOSTILE-INTENT BELIEF ↑',defdown:'LOWER DEFCON · READINESS ↓ · REVERSIBLE SIGNAL',hold:'HOLD / OBSERVE · PRESERVE DECISION TIME · SMALL ESCALATION RISK',auth:'COMMAND CONFERENCE · THREE ADVISERS · ONE BOUNDED NATIONAL DECISION',wopr:'TRANSFER COMMAND · W.O.P.R. WILL RUN THE COMPLETE WAR-PLAN MATRIX · CURRENT OPERATION WILL END',bombstrike:'ONE AUTHORIZED BOMBER RESPONSE · CONSUMES CURRENT DIRECTIVE'};
 function hud(){
   const s=S,me=s.side==='US'?'US':'USSR',them=s.side==='US'?'USSR':'US';
   const subsDep=s.subsY.filter(x=>x.state!=='port'&&x.state!=='returning').length;
@@ -775,12 +883,12 @@ function hud(){
   const air=s.bombersY.filter(b=>b.state==='air'||b.state==='strike').length;
   const spread=Math.max(1,Math.ceil((100-s.intel)/12)),lo=Math.max(0,s.icbmF-spread),hi=s.icbmF+spread;
   $('statbox').innerHTML=
-   `SIDE: ${me} · ${s.difficulty.name} · ${s.war?'COMBAT':'CRISIS'} ROUND ${String(s.war?s.combatRound:s.crisisRound).padStart(2,'0')}<br>`+
+   `SIDE: ${me} · ${s.difficulty.name} · ${s.wopr&&s.wopr.active?'CLOSED SIMULATION':s.war?'COMBAT':'CRISIS'} ROUND ${String(s.war?s.combatRound:s.crisisRound).padStart(2,'0')}<br>`+
    `CRISIS: ${s.crisis}<br>`+
    `ICBM ${s.icbmY} · SLBM ${slbm} · BOMBERS ${s.bombersY.filter(b=>b.state!=='done').length} · ABM ${s.abm}<br>`+
    `<span style="color:var(--red)">${them} EST: ICBM ${lo}–${hi} · PERCEIVED HOSTILITY ${confidenceBand(s.ai.beliefs.hostileIntent)} · WARNING ${confidenceBand(s.ai.beliefs.warningConfidence)}</span><br>`+
    `CASUALTIES — ${me}: ${s.casY.toFixed(1)}M · ${them}: ${s.casF.toFixed(1)}M`;
-  $('phaseLine').textContent=s.war?'PHASE IV — TURN-BASED EXCHANGE':`PHASE ${['','I — ASSESSMENT','II — BRINKMANSHIP','III — RELEASE REVIEW'][s.strategicPhase]}`;
+  $('phaseLine').textContent=s.wopr&&s.wopr.active?'W.O.P.R. — AUTONOMOUS WAR-PLAN MATRIX':s.war?'PHASE IV — TURN-BASED EXCHANGE':`PHASE ${['','I — ASSESSMENT','II — BRINKMANSHIP','III — RELEASE REVIEW'][s.strategicPhase]}`;
   const pathIndex=s.war?4:s.strategicPhase;for(const[id,n]of[['pathAssess',1],['pathPosture',2],['pathAuth',3],['pathCombat',4]]){$(id).className='phaseStep'+(n<pathIndex?' done':n===pathIndex?' current':'')}
   $('trustVal').textContent=s.trust.toFixed(0);$('intelVal').textContent=s.intel.toFixed(0);$('readyVal').textContent=s.readiness.toFixed(0);$('resolveVal').textContent=s.resolution.toFixed(0);
   meter('trustFill',s.trust,s.trust<35?'var(--red)':s.trust<60?'var(--amber)':'var(--grn)');
@@ -791,8 +899,8 @@ function hud(){
   const f=$('tfill');f.style.width=s.tension+'%';
   f.style.background=s.tension<35?'var(--grn)':s.tension<65?'var(--amber)':'var(--red)';
   $('crisisclock').textContent=(s.war?'COMBAT ':'ROUND ')+String(s.war?s.combatRound:s.crisisRound).padStart(2,'0');
-  const choosing=playerCanChoose(s),owner=s.turnOwner==='player'?'YOUR TURN':s.turnOwner==='enemy'?'ADVERSARY TURN':'RESOLVING';
-  $('cpread').textContent=choosing?(s.pendingOrder?'ORDER STAGED':'1 ORDER'):'WAIT';$('turnread').textContent=`${s.war?'COMBAT':'ROUND'} ${String(s.war?s.combatRound:s.crisisRound).padStart(2,'0')} // ${owner}`;
+  const choosing=playerCanChoose(s),owner=s.turnOwner==='player'?'YOUR TURN':s.turnOwner==='enemy'?'ADVERSARY TURN':s.turnOwner==='wopr'?'W.O.P.R. CONTROL':'RESOLVING';
+  $('cpread').textContent=s.turnOwner==='wopr'?'MATRIX':choosing?(s.pendingOrder?'ORDER STAGED':'1 ORDER'):'WAIT';$('turnread').textContent=`${s.war?'COMBAT':'ROUND'} ${String(s.war?s.combatRound:s.crisisRound).padStart(2,'0')} // ${owner}`;
   const inbound=s.missiles.filter(m=>!m.byPlayer),verified=inbound.filter(m=>m.verified&&!m.phantom).length,unknown=inbound.filter(m=>!m.verified).length;
   $('trackinfo').textContent=inbound.length?`TRACKS: ${inbound.length} · VERIFIED ${verified} · UNKNOWN ${unknown}`:'TRACKS: NONE';
   if(s.eventOpen)$('eventtimer').textContent='THIS DECISION IS YOUR ORDER FOR THE ROUND';
@@ -803,10 +911,10 @@ function hud(){
   const targetLimit=s.directive?s.directive.maxAimpoints:2,permitted=s.directive?s.directive.permittedTypes.map(x=>x.toUpperCase()).join(' / '):'MILITARY';$('targinfo').textContent=s.targets.size?`${s.targets.size} OF ${targetLimit} AUTHORIZED: ${targetNames}`:s.war?(combatChoice?`SELECT ${targetLimit===1?'ONE':'UP TO '+targetLimit} GREEN-RINGED AIMPOINT${targetLimit===1?'':'S'} · ${permitted}`:'TARGETING LOCKED — NO ACTIVE DIRECTIVE'):`TARGETING LOCKED UNTIL NATIONAL DIRECTION`;
   const can=s.phase==='crisis'&&choosing;$('bEvidence').disabled=!can;
   const selectedReport=s.evidenceReports.find(r=>r.id===s.selectedEvidenceId);$('assessmentStatus').innerHTML=`<strong>ASSESSMENT:</strong> ${s.playerBeliefs.assessment} · ATTACK ${confidenceBand(s.playerBeliefs.attackConfidence)} · ERROR ${confidenceBand(s.playerBeliefs.errorConfidence)} · SELECTED ${selectedReport?selectedReport.title:'NONE'}`;
-  const pending=s.comms.queue.filter(m=>!['acknowledged','disputed','failed'].includes(m.status)),last=s.comms.lastReceipt;$('opsStatus').innerHTML=`<strong>FORCES:</strong> ICBM ${s.forceGroups.icbm.status} · SSBN ${s.forceGroups.ssbn.status} ${s.forceGroups.ssbn.readiness}% · BOMBER ${s.forceGroups.bomber.status} ${s.forceGroups.bomber.readiness}%<br><strong>COMMS:</strong> ${s.comms.status.toUpperCase()} · ${pending.length?pending.length+' IN TRANSIT':last?last.id+' '+last.status.toUpperCase():'NO TRAFFIC PENDING'}`;
+  const pending=s.comms.queue.filter(m=>!['acknowledged','disputed','failed'].includes(m.status)),last=s.comms.lastReceipt,sd=mutualStandDownStatus(s),standLine=`OWN ${sd.ownSafe&&sd.ownOrdered?'SAFE':sd.ownOrdered?'RETURNING':'NOT ORDERED'} · OFFER ${sd.offerAcknowledged?'ACKNOWLEDGED':'PENDING'} · FOE ${sd.foeSafe&&sd.foeOrdered?'SAFE':sd.foeOrdered?'RETURNING':'NOT ORDERED'} · RELEASE ${sd.releaseSafe?'SAFE':'NOT SAFE'}`;$('opsStatus').innerHTML=`<strong>FORCES:</strong> ICBM ${s.forceGroups.icbm.status} · SSBN ${s.forceGroups.ssbn.status} ${s.forceGroups.ssbn.readiness}% · BOMBER ${s.forceGroups.bomber.status} ${s.forceGroups.bomber.readiness}%<br><strong>COMMS:</strong> ${s.comms.status.toUpperCase()} · ${pending.length?pending.length+' IN TRANSIT':last?last.id+' '+last.status.toUpperCase():'NO TRAFFIC PENDING'}<br><strong>STAND-DOWN:</strong> ${standLine}`;
   const d=s.directive;$('directiveStatus').className=directiveValid(s)?'active':'';$('directiveStatus').innerHTML=d?`<strong>DIRECTIVE ${d.id}:</strong> ${d.title} · ${d.status.toUpperCase()} · ${d.remainingUses} USE · MILITARY ONLY`:'<strong>DIRECTIVE:</strong> NONE — EMPLOYMENT CONTROLS SAFE';
-  $('diploCd').textContent='DELAYED REPLY';$('intelCd').textContent=selectedReport?(selectedReport.verified?'RECHECK':'ONE REPORT'):'SELECT REPORT';$('standCd').textContent=s.standDownVerified?'VERIFIED':s.strategicPhase<3?'ROUND 08':'DELAYED REPLY';
-  $('bDiplo').disabled=!can;$('bIntel').disabled=!can||!selectedReport;$('bStand').disabled=!can||s.standDownVerified||s.strategicPhase<3;
+  const standPending=s.comms.queue.some(m=>m.type==='standdown'&&!['acknowledged','disputed','failed'].includes(m.status));$('diploCd').textContent='DELAYED REPLY';$('intelCd').textContent=selectedReport?(selectedReport.verified?'RECHECK':'ONE REPORT'):'SELECT REPORT';$('standCd').textContent=sd.complete?'VERIFIED':s.strategicPhase<3?'ROUND 08':sd.offerAcknowledged?(sd.ownSafe&&sd.foeSafe?'VERIFYING':'FORCES RETURNING'):standPending?'AWAITING REPLY':sd.ownOrdered?'RESEND AVAILABLE':'RECIPROCAL';
+  $('bDiplo').disabled=!can;$('bIntel').disabled=!can||!selectedReport;$('bStand').disabled=!can||sd.complete||s.strategicPhase<3||standPending||sd.offerAcknowledged;
   $('bCivil').disabled=!can||s.civilDefense;$('civilInfo').textContent=s.civilDefense?'ACTIVE':'ONE TURN';
   $('bDefUp').textContent='RAISE DEFCON';$('bDefDown').textContent='LOWER DEFCON';
   $('bDefUp').disabled=!can||s.defcon<=1;$('bDefDown').disabled=!can||s.defcon>=5;
@@ -816,9 +924,9 @@ function hud(){
   $('bBomb').innerHTML=(s.war?'BOMBER STRIKE [B] ':anyAir?'RECALL WING [B] ':'SCRAMBLE WING [B] ')+`<small id="bombInfo">${air} AIR</small>`;
   $('bBomb').disabled=s.war?(!combatChoice||!s.bombersY.some(b=>b.state==='air')||!s.targets.size):(!can||(['ordered','preparing','returning'].includes(s.forceGroups.bomber.orderState))||(anyAir?false:!s.bombersY.some(b=>b.state==='base')));
   $('bHold').innerHTML=(s.war?'HOLD / TERMINATION REVIEW [O]':'HOLD / OBSERVE [O]')+' <small>ONE TURN</small>';$('bHold').disabled=!(can||(choosing&&s.war));const authAvailable=(can&&s.strategicPhase===3)||(choosing&&s.war&&!directiveValid(s)),authLockText=directiveValid(s)?'ACTIVE':s.strategicPhase<3&&!s.war?'ROUND 08':s.conference.status==='submitted'?'LEADER REVIEW':'AVAILABLE';
-  $('bAuth').innerHTML=(s.war?'REQUEST RENEWED DIRECTION [A]':'CONVENE COMMAND CONFERENCE [A]')+` <small id="authLock">${authLockText}</small>`;$('bAuth').disabled=!authAvailable;$('authStatusText').textContent=authSummary(s);
+  $('bAuth').innerHTML=(s.war?'REQUEST RENEWED DIRECTION [A]':'CONVENE COMMAND CONFERENCE [A]')+` <small id="authLock">${authLockText}</small>`;$('bAuth').disabled=!authAvailable;$('authStatusText').textContent=authSummary(s);const woprAvailable=woprCanRequest(s),woprLock=s.wopr&&s.wopr.complete?'COMPLETE':s.wopr&&s.wopr.active?'CONTROLLED':s.strategicPhase<3?'ROUND 08':'AUTONOMOUS';$('bWopr').innerHTML=`ENABLE W.O.P.R. [W] <small id="woprLock">${woprLock}</small>`;$('bWopr').disabled=!woprAvailable;
   const preview=s.pendingOrder==='verify'&&selectedReport?`VERIFY REPORT: ${selectedReport.title} · ONE SOURCE ONLY · UNCERTAINTY REMAINS`:s.pendingOrder?ORDER_TEXT[s.pendingOrder]||s.pendingOrder.toUpperCase():'SELECT ONE COMMAND. REVIEW ITS EFFECTS. THEN COMMIT.';$('orderPreview').textContent=preview;$('orderPreview').className=s.pendingOrder?'ready':'';$('commitOrder').disabled=!(can||(choosing&&s.war))||!s.pendingOrder;
-  const orderIds={bDiplo:'hotline',bIntel:'verify',bStand:'stand',bCivil:'civil',bSubs:'subs',bBomb:s.war?'bombstrike':'bomb',bDefUp:'defup',bDefDown:'defdown',bHold:'hold',bAuth:'auth'};for(const[id,order]of Object.entries(orderIds))$(id).classList.toggle('selected',s.pendingOrder===order);
+  const orderIds={bDiplo:'hotline',bIntel:'verify',bStand:'stand',bCivil:'civil',bSubs:'subs',bBomb:s.war?'bombstrike':'bomb',bDefUp:'defup',bDefDown:'defdown',bHold:'hold',bAuth:'auth',bWopr:'wopr'};for(const[id,order]of Object.entries(orderIds))$(id).classList.toggle('selected',s.pendingOrder===order);
   const interceptable=inbound.filter(m=>m.t<.86);$('bTarget').disabled=!combatChoice;cv.style.cursor=combatChoice?'crosshair':'default';$('bIntercept').disabled=s.paused||s.eventOpen||s.over||!interceptable.length||s.abm<=0;$('interceptInfo').textContent=s.abm<=0?'NO ABM':interceptable.length?interceptable.length+' INBOUND':'NO TRACK';
   $('modeForce').disabled=!combatChoice;$('modeCity').disabled=true;
   $('modeForce').classList.toggle('selected',combatChoice&&s.targetMode==='force');$('modeCity').classList.remove('selected');
@@ -874,7 +982,7 @@ $('bIntercept').onclick=()=>{blip();interceptNext()};
 /* ---------- WAR ---------- */
 function enterCombat(msg,firstActor='player'){
   const s=S;if(!s||s.over)return false;if(s.war)return false;
-  s.war=true;s.phase='war';s.tension=100;s.peakTension=100;s.defcon=1;s.strategicPhase=4;s.combatRound=1;
+  revokeStandDown(s,'all','WAR BREAKS OUT — STAND-DOWN PROCESS TERMINATED');s.war=true;s.phase='war';s.endingCause='war';s.tension=100;s.peakTension=100;s.defcon=1;s.strategicPhase=4;s.combatRound=1;
   s.eventOpen=false;s.eventConsumesTurn=false;s.eventDeadline=0;evCb=null;evReturnFocus=null;$('eventbox').style.display='none';
   s.authOpen=false;s.authDeadline=0;setAuthBackground(false);$('authbox').style.display='none';s.pendingOrder=null;s.targets.clear();
   if(firstActor==='enemy'){s.foeFired=true;s.conference.option='controlled';s.conference.selectedOptionId='controlled';s.conference.decision='authorized';s.conference.status='authorized';s.authentication.verified=true;s.authentication.status='verified';s.ncaStage='retaliatory';issueDirective(s,'controlled',{leaderAuthorized:true,authenticated:true});addLog(authRole(s)[0]+' — VERIFIED ATTACK ASSESSMENT','sys');addLog(authRole(s)[1]+' — EMERGENCY BOUNDED RESPONSE DIRECTION ISSUED','en')}
@@ -928,27 +1036,28 @@ function impact(m){
   hud();}
 
 /* ---------- PLAYER ACTIONS ---------- */
-function stageOrder(id){const s=S;if(!playerCanChoose(s))return;if(id==='bomber')id='bomb';if(s.war&&!['bombstrike','hold','auth'].includes(id))return;if(!s.war&&['bombstrike'].includes(id))return;s.pendingOrder=id;blip();hud()}
+function stageOrder(id){const s=S;if(!playerCanChoose(s))return;if(id==='bomber')id='bomb';if(id==='wopr'&&!woprCanRequest(s))return;if(s.war&&!['bombstrike','hold','auth'].includes(id))return;if(!s.war&&['bombstrike'].includes(id))return;s.pendingOrder=id;blip();hud()}
 function changeDefcon(dir){const s=S;if(!s)return;const before=s.defcon;s.defcon=clamp(s.defcon+dir,1,5);if(s.defcon===before)return;
-  if(dir<0){metric('readiness',10);metric('trust',-3);tensionAdd(4,'FORCES RAISED TO DEFCON '+s.defcon);updateAdversaryBeliefs(s,'defup')}else{metric('readiness',-10);metric('trust',3);tensionAdd(-4,'FORCES LOWERED TO DEFCON '+s.defcon);updateAdversaryBeliefs(s,'defdown')}renderDefcon()}
+  if(dir<0){revokeStandDown(s,'own','PLAYER FORCE POSTURE RAISED');metric('readiness',10);metric('trust',-3);tensionAdd(4,'FORCES RAISED TO DEFCON '+s.defcon);updateAdversaryBeliefs(s,'defup')}else{metric('readiness',-10);metric('trust',3);tensionAdd(-4,'FORCES LOWERED TO DEFCON '+s.defcon);updateAdversaryBeliefs(s,'defdown')}renderDefcon()}
 function executeCrisisOrder(id){const s=S;
   if(id==='defup')changeDefcon(-1);
   else if(id==='defdown')changeDefcon(1);
   else if(id==='hotline'){s.diploUses++;const msg=queueTransmission(s,'hotline',{purpose:'clarify intent'},1);addLog(msg.id+' HOTLINE MESSAGE TRANSMITTED — ACKNOWLEDGEMENT PENDING','sys');updateAdversaryBeliefs(s,'hotline')}
   else if(id==='verify'){const report=verifyEvidence(s,s.selectedEvidenceId);if(report){metric('resolution',report.status==='disputed'?7:4);goodS()}updateAdversaryBeliefs(s,'verify')}
-  else if(id==='stand'){for(const b of s.bombersY)if(b.state==='air')b.state='return';for(const sub of s.subsY)if(sub.state==='moving'||sub.state==='station')sub.state='returning';metric('readiness',-10);metric('trust',3);const msg=queueTransmission(s,'standdown',{purpose:'reciprocal force reduction'},1);addLog(msg.id+' RECIPROCAL STAND-DOWN TRANSMITTED — ACTION NOT YET VERIFIED','sys');updateAdversaryBeliefs(s,'stand')}
-  else if(id==='civil'){s.civilDefense=true;metric('readiness',10);metric('trust',-3);tensionAdd(rand(5,8),'CIVIL DEFENSE NETWORK ACTIVATED');addLog('SHELTER AND EVACUATION ORDERS PREPARED — PROJECTED LOSSES REDUCED','sys');updateAdversaryBeliefs(s,'civil')}
-  else if(id==='subs'){stageForceReadiness(s,'ssbn','deploy');s.subsY.filter(x=>x.state==='port').slice(0,2).forEach(sub=>sub.state='moving');metric('readiness',3);metric('trust',-3);tensionAdd(rand(4,7),'SSBN DEPLOYMENT ORDER TRANSMITTED — PATROL NOT YET READY');updateAdversaryBeliefs(s,'subs')}
-  else if(id==='bomb'){const g=s.forceGroups.bomber,air=s.bombersY.filter(b=>b.state==='air');if(air.length||g.orderState==='ready'){g.orderState='returning';g.status='RETURNING';g.progress=0;g.readiness=0;air.forEach(b=>b.state='return');metric('readiness',-5);metric('trust',3);tensionAdd(-4,'BOMBER RECALL TRANSMITTED — RECOVERY PENDING');updateAdversaryBeliefs(s,'defdown')}else{stageForceReadiness(s,'bomber','scramble');metric('readiness',3);metric('trust',-4);tensionAdd(6,'BOMBER SCRAMBLE ORDER TRANSMITTED — WING PREPARING');updateAdversaryBeliefs(s,'bomb')}}
+  else if(id==='stand'){orderOwnStandDown(s);metric('readiness',-10);metric('trust',3);const msg=queueTransmission(s,'standdown',{purpose:'reciprocal force reduction'},1);addLog(msg.id+' RECIPROCAL STAND-DOWN TRANSMITTED — BOTH FORCE POSTURES MUST VERIFY SAFE','sys');updateAdversaryBeliefs(s,'stand')}
+  else if(id==='civil'){revokeStandDown(s,'own','PLAYER CIVIL-DEFENSE POSTURE ACTIVATED');s.civilDefense=true;metric('readiness',10);metric('trust',-3);tensionAdd(rand(5,8),'CIVIL DEFENSE NETWORK ACTIVATED');addLog('SHELTER AND EVACUATION ORDERS PREPARED — PROJECTED LOSSES REDUCED','sys');updateAdversaryBeliefs(s,'civil')}
+  else if(id==='subs'){revokeStandDown(s,'own','PLAYER SSBN DEPLOYMENT RESUMED');stageForceReadiness(s,'ssbn','deploy');s.subsY.filter(x=>x.state==='port').slice(0,2).forEach(sub=>sub.state='moving');metric('readiness',3);metric('trust',-3);tensionAdd(rand(4,7),'SSBN DEPLOYMENT ORDER TRANSMITTED — PATROL NOT YET READY');updateAdversaryBeliefs(s,'subs')}
+  else if(id==='bomb'){const g=s.forceGroups.bomber,air=s.bombersY.filter(b=>b.state==='air');if(air.length||g.orderState==='ready'){g.orderState='returning';g.status='RETURNING';g.progress=0;g.readiness=0;air.forEach(b=>b.state='return');metric('readiness',-5);metric('trust',3);tensionAdd(-4,'BOMBER RECALL TRANSMITTED — RECOVERY PENDING');updateAdversaryBeliefs(s,'defdown')}else{revokeStandDown(s,'own','PLAYER BOMBER SCRAMBLE RESUMED');stageForceReadiness(s,'bomber','scramble');metric('readiness',3);metric('trust',-4);tensionAdd(6,'BOMBER SCRAMBLE ORDER TRANSMITTED — WING PREPARING');updateAdversaryBeliefs(s,'bomb')}}
   else if(id==='hold'){metric('trust',rand(1,3));metric('resolution',rand(2,5));tensionAdd(rand(-2,2),'FORCES HOLD — ADDITIONAL OBSERVATION WINDOW');updateAdversaryBeliefs(s,'hold')};}
 function executeBomberStrike(){const s=S,b=s.bombersY.find(x=>x.state==='air'),target=[...s.targets][0];if(!b||!target||!directiveValid(s)||target.kind!=='site'||!s.directive.permittedTypes.includes(target.t))return false;s.targets.clear();consumeDirective(s,'bomber-strike');updateAdversaryBeliefs(s,'launch');b.state='strike';b.target=target;addLog('AUTHORIZED BOMBER RESPONSE — TARGET: '+target.name,'sys');schedule(3.2,()=>{if(S!==s)return;b.state='done';if(target.dead)return;const[bx,by]=px(target.lon,target.lat);impact({bx,by,byPlayer:true,target,kind:'BOMB'})});return true}
-function commitStagedOrder(){const s=S;if(!playerCanChoose(s)||!s.pendingOrder)return;const id=s.pendingOrder;s.pendingOrder=null;s.turnOwner='resolving';s.turnStage='resolve';addLog('— YOUR ORDER: '+(ORDER_TEXT[id]||id.toUpperCase()).split(' · ')[0]+' —','sys');alarmS();
+function commitStagedOrder(){const s=S;if(!playerCanChoose(s)||!s.pendingOrder)return;const id=s.pendingOrder;if(id==='wopr'){openWoprConfirm(s);return}s.pendingOrder=null;s.turnOwner='resolving';s.turnStage='resolve';addLog('— YOUR ORDER: '+(ORDER_TEXT[id]||id.toUpperCase()).split(' · ')[0]+' —','sys');alarmS();
   if(id==='auth'){openCommandConference(s,null,s.war?'renewal':'initial');hud();return}
   if(id==='bombstrike'){if(!executeBomberStrike()){startPlayerTurn();return}schedule(4.2,()=>{if(S===s&&!s.over)runEnemyTurn()})}
   else if(s.war){addLog('NO STRIKE ORDERED — INITIATIVE PASSES','sys');schedule(.8,()=>{if(S===s&&!s.over)runEnemyTurn()})}
   else{executeCrisisOrder(id);schedule(1.25,()=>{if(S===s&&!s.over)runEnemyTurn()})}hud();}
 $('bDefUp').onclick=()=>stageOrder('defup');$('bDefDown').onclick=()=>stageOrder('defdown');$('bDiplo').onclick=()=>stageOrder('hotline');$('bIntel').onclick=()=>stageOrder('verify');$('bStand').onclick=()=>stageOrder('stand');$('bCivil').onclick=()=>stageOrder('civil');$('bSubs').onclick=()=>stageOrder('subs');
-$('bBomb').onclick=()=>stageOrder(S&&S.war?'bombstrike':'bomb');$('bHold').onclick=()=>stageOrder('hold');$('bAuth').onclick=()=>stageOrder('auth');$('commitOrder').onclick=commitStagedOrder;
+$('bBomb').onclick=()=>stageOrder(S&&S.war?'bombstrike':'bomb');$('bHold').onclick=()=>stageOrder('hold');$('bAuth').onclick=()=>stageOrder('auth');$('bWopr').onclick=()=>stageOrder('wopr');$('commitOrder').onclick=commitStagedOrder;
+$('woprConfirm').onclick=()=>{blip();confirmWoprTakeover()};$('woprCancel').onclick=()=>{blip();closeWoprConfirm()};
 
 function setTargetMode(mode){if(mode!=='force'||!S||!playerCanChoose(S)||!S.war||!directiveValid(S))return;S.targetMode='force';blip();hud()}
 $('modeForce').onclick=()=>setTargetMode('force');$('modeCity').onclick=()=>{};
@@ -1050,26 +1159,27 @@ $('authSubmit').onclick=()=>{blip();submitAuth()};$('authAbort').onclick=()=>{bl
 $('bEvidence').onclick=()=>{blip();openEvidenceBoard()};$('evidenceSelect').onclick=()=>stageEvidenceSelection();$('evidenceClose').onclick=()=>{blip();closeEvidenceBoard()};
 $('conferenceSubmit').onclick=()=>{const s=S;if(!s||!s.conference.open)return;const id=s.conference.selectedOptionId;if(!id){$('conferenceReason').textContent='SELECT A RECOMMENDATION BEFORE TRANSMISSION.';alarmS();return}blip();
   if(id==='withhold'){resolveLeaderDecision(s,'withhold',id);closeCommandConference(s);s.turnOwner='resolving';s.turnStage='resolve';schedule(.8,()=>{if(S===s&&!s.over)runEnemyTurn()});hud();return}
-  s.conference.open=false;s.conference.stage='submitted';s.conference.status='submitted';s.conference.decision='pending';s.conference.submittedRound=s.war?s.combatRound:s.crisisRound;queueTransmission(s,'national-recommendation',{option:id,purpose:s.conference.purpose},1);recordDecision(s,'recommendation-transmitted','Recommendation sent to national leadership.',{option:id});updateAdversaryBeliefs(s,'auth');closeCommandConference(s);s.turnOwner='resolving';s.turnStage='resolve';schedule(.8,()=>{if(S===s&&!s.over)runEnemyTurn()});hud()};
+  revokeStandDown(s,'own','PLAYER REQUESTS EMPLOYMENT DIRECTION');s.conference.open=false;s.conference.stage='submitted';s.conference.status='submitted';s.conference.decision='pending';s.conference.submittedRound=s.war?s.combatRound:s.crisisRound;queueTransmission(s,'national-recommendation',{option:id,purpose:s.conference.purpose},1);recordDecision(s,'recommendation-transmitted','Recommendation sent to national leadership.',{option:id});updateAdversaryBeliefs(s,'auth');closeCommandConference(s);s.turnOwner='resolving';s.turnStage='resolve';schedule(.8,()=>{if(S===s&&!s.over)runEnemyTurn()});hud()};
 $('conferenceMore').onclick=()=>{const s=S;if(!s)return;blip();s.conference.decision='more-information';s.conference.status='more-information';recordDecision(s,'conference-outcome','Additional corroboration requested.');closeCommandConference(s);s.turnOwner='resolving';s.turnStage='resolve';schedule(.8,()=>{if(S===s&&!s.over)runEnemyTurn()})};
 $('conferenceWithhold').onclick=()=>{const s=S;if(!s)return;blip();resolveLeaderDecision(s,'withhold',s.conference.selectedOptionId||'withhold');closeCommandConference(s);s.turnOwner='resolving';s.turnStage='resolve';schedule(.8,()=>{if(S===s&&!s.over)runEnemyTurn()})};
 function resumeAfterTermination(s){if(!s||s.over)return;if(s.combatRound>=s.maxCombatRounds){finishCombat(s);return}s.combatRound++;s.turnStage='choose';startPlayerTurn()}
 $('terminationCease').onclick=()=>{const s=S;if(!s)return;blip();s.termination.ceasefireAttempts++;resolveTermination(s,'terminate');closeTerminationOverlay();queueTransmission(s,'ceasefire',{purpose:'terminate exchange'},1);const chance=clamp(.28+s.trust/160+(100-s.ai.beliefs.hostileIntent)/260-s.termination.ceasefireAttempts*.04,.22,.82);
-  if(Math.random()<chance){s.over=true;s.phase='resolving';s.turnStage='resolve';s.standDownVerified=true;addLog('VERIFIED CEASEFIRE RECEIVED — ALL UNEXECUTED DIRECTIONS SUSPENDED','ok');recordDecision(s,'exchange-terminated','Verified ceasefire ends the exchange.');hud();setTimeout(()=>{if(S===s)startSimulation(true)},1200)}else{addLog('CEASEFIRE REQUEST DISPUTED — HOLDING FIRE WHILE NATIONAL REVIEW CONTINUES','en');resumeAfterTermination(s)}};
+  if(Math.random()<chance){s.over=true;s.phase='resolving';s.turnStage='resolve';s.standDownVerified=true;s.endingCause='ceasefire';addLog('VERIFIED CEASEFIRE RECEIVED — ALL UNEXECUTED DIRECTIONS SUSPENDED','ok');recordDecision(s,'exchange-terminated','Verified ceasefire ends the exchange.');hud();setTimeout(()=>{if(S===s)startSimulation(false)},1200)}else{addLog('CEASEFIRE REQUEST DISPUTED — HOLDING FIRE WHILE NATIONAL REVIEW CONTINUES','en');resumeAfterTermination(s)}};
 $('terminationRenew').onclick=()=>{const s=S;if(!s)return;blip();resolveTermination(s,'renew');closeTerminationOverlay();if(s.combatRound>=s.maxCombatRounds){finishCombat(s);return}s.combatRound++;startPlayerTurn();openCommandConference(s,null,'renewal')};
 $('terminationHold').onclick=()=>{const s=S;if(!s)return;blip();resolveTermination(s,'hold');closeTerminationOverlay();addLog('HOLD FIRE — FORCES PRESERVED, NO EMPLOYMENT DIRECTION ACTIVE','sys');resumeAfterTermination(s)};
 
 /* ---------- ENEMY AI ---------- */
 function enemyCrisisAction(s=S){
-  if(!s||s.phase!=='crisis'||s.over)return'none';const t=s.tension,pressure=s.scenario.pressure*s.difficulty.pressure,belief=s.ai.beliefs.hostileIntent,warning=s.ai.beliefs.warningConfidence;
-  if(s.strategicPhase>=3&&s.launchWarningRound&&s.crisisRound>s.launchWarningRound&&t>=90){enemyGoesToWar('VERIFIED ENEMY FIRST STRIKE IN PROGRESS');return'first-strike'}
+  if(!s||s.phase!=='crisis'||s.over)return'none';const t=s.tension,pressure=s.scenario.pressure*s.difficulty.pressure,belief=s.ai.beliefs.hostileIntent,warning=s.ai.beliefs.warningConfidence,sd=standDownState(s);
+  if(s.strategicPhase>=3&&s.launchWarningRound&&s.crisisRound>s.launchWarningRound&&t>=90){revokeStandDown(s,'foe','ENEMY FIRST-STRIKE ORDER');enemyGoesToWar('VERIFIED ENEMY FIRST STRIKE IN PROGRESS');return'first-strike'}
   if(s.strategicPhase>=3&&s.launchWarningRound&&t<76){s.launchWarningRound=0;s.ai.launchWarning=0;metric('trust',4);metric('resolution',6);addLog('ENEMY RELEASE CIRCUIT RETURNS TO SAFE','ok');return'safe'}
-  if(s.strategicPhase>=3&&t>=84&&!s.launchWarningRound){s.launchWarningRound=s.crisisRound;s.ai.launchWarning=1;addLog('ENEMY ORDER — PRIORITY RELEASE CODES PREPARED','en');advise('THE WARNING CHAIN IS ACTIVE. YOU WILL RECEIVE ONE FULL RESPONSE ROUND.','INTEL',7);alarmS();return'warning'}
-  if(s.strategicPhase<3&&t>=84){metric('trust',-2);addLog('ENEMY ORDER — MAXIMUM ALERT. NATIONAL RELEASE LOCKS REMAIN CLOSED.','en');return'pre-release-alert'}
-  if((t>56||belief>62)&&s.bombersF.some(b=>b.state==='base')&&Math.random()<.32*s.ai.doctrine.force*pressure+warning/500){s.bombersF.filter(b=>b.state==='base').slice(0,3).forEach(b=>b.state='air');s.ai.last='scramble';tensionAdd(rand(4,7),'ENEMY ORDER — ONE BOMBER WING AIRBORNE');recordDecision(s,'adversary-order','Adversary bomber wing airborne.',{belief:safeClone(s.ai.beliefs)});return'scramble'}
-  if((t>42||belief>52)&&s.subsF.some(x=>x.state==='port')&&Math.random()<.36*s.ai.doctrine.force*pressure+belief/600){s.subsF.filter(x=>x.state==='port').slice(0,2).forEach(sub=>{sub.lon=sub.sx;sub.lat=sub.sy;sub.state='station'});s.ai.last='deploy';tensionAdd(rand(3,6),'ENEMY ORDER — ONE SSBN GROUP DEPLOYS');recordDecision(s,'adversary-order','Adversary SSBN group deployed.',{belief:safeClone(s.ai.beliefs)});return'deploy'}
-  if(t<48&&s.trust>44&&(s.bombersF.some(b=>b.state==='air')||s.subsF.some(x=>x.state==='station'))&&Math.random()<.55*s.ai.doctrine.diplo){s.bombersF.filter(b=>b.state==='air').slice(0,3).forEach(b=>b.state='return');s.subsF.filter(x=>x.state==='station').slice(0,2).forEach(x=>x.state='returning');metric('trust',4);metric('resolution',6);tensionAdd(-rand(4,8),'ENEMY ORDER — VISIBLE FORCE REDUCTION');return'standdown'}
-  if(belief>70){metric('trust',-3);tensionAdd(rand(2,5),'ENEMY ORDER — READINESS RAISED IN RESPONSE TO PERCEIVED INTENT');s.ai.last='react';return'react'}
+  if(s.strategicPhase>=3&&t>=84&&!s.launchWarningRound){revokeStandDown(s,'foe','ENEMY RELEASE WARNING');s.launchWarningRound=s.crisisRound;s.ai.launchWarning=1;addLog('ENEMY ORDER — PRIORITY RELEASE CODES PREPARED','en');advise('THE WARNING CHAIN IS ACTIVE. YOU WILL RECEIVE ONE FULL RESPONSE ROUND.','INTEL',7);alarmS();return'warning'}
+  if(s.strategicPhase<3&&t>=84){revokeStandDown(s,'foe','ENEMY MAXIMUM ALERT');metric('trust',-2);addLog('ENEMY ORDER — MAXIMUM ALERT. NATIONAL RELEASE LOCKS REMAIN CLOSED.','en');return'pre-release-alert'}
+  if(sd.offerAcknowledged&&sd.foeOrdered){for(const b of s.bombersF)if(b.state!=='base'&&b.state!=='done')b.state='return';for(const sub of s.subsF)if(sub.state!=='port')sub.state='returning';metric('resolution',3);tensionAdd(-rand(2,5),'ENEMY ORDER — RECIPROCAL STAND-DOWN CONTINUES');return'standdown-compliance'}
+  if((t>56||belief>62)&&s.bombersF.some(b=>b.state==='base')&&Math.random()<.32*s.ai.doctrine.force*pressure+warning/500){revokeStandDown(s,'foe','ENEMY BOMBER SCRAMBLE');s.bombersF.filter(b=>b.state==='base').slice(0,3).forEach(b=>b.state='air');s.ai.last='scramble';tensionAdd(rand(4,7),'ENEMY ORDER — ONE BOMBER WING AIRBORNE');recordDecision(s,'adversary-order','Adversary bomber wing airborne.',{belief:safeClone(s.ai.beliefs)});return'scramble'}
+  if((t>42||belief>52)&&s.subsF.some(x=>x.state==='port')&&Math.random()<.36*s.ai.doctrine.force*pressure+belief/600){revokeStandDown(s,'foe','ENEMY SSBN DEPLOYMENT');s.subsF.filter(x=>x.state==='port').slice(0,2).forEach(sub=>{sub.lon=sub.sx;sub.lat=sub.sy;sub.state='station'});s.ai.last='deploy';tensionAdd(rand(3,6),'ENEMY ORDER — ONE SSBN GROUP DEPLOYS');recordDecision(s,'adversary-order','Adversary SSBN group deployed.',{belief:safeClone(s.ai.beliefs)});return'deploy'}
+  if(t<48&&s.trust>44&&(s.bombersF.some(b=>b.state==='air')||s.subsF.some(x=>x.state==='station'))&&Math.random()<.55*s.ai.doctrine.diplo){orderEnemyStandDown(s,'VISIBLE ADVERSARY FORCE REDUCTION');metric('trust',4);metric('resolution',6);tensionAdd(-rand(4,8),'ENEMY ORDER — VISIBLE FORCE REDUCTION');return'standdown'}
+  if(belief>70){revokeStandDown(s,'foe','ENEMY READINESS RAISED');metric('trust',-3);tensionAdd(rand(2,5),'ENEMY ORDER — READINESS RAISED IN RESPONSE TO PERCEIVED INTENT');s.ai.last='react';return'react'}
   if(Math.random()<.42*s.ai.doctrine.diplo){metric('trust',rand(2,5));metric('resolution',rand(2,5));tensionAdd(-rand(2,6),'ENEMY ORDER — PRIVATE ASSURANCE TRANSMITTED');s.ai.last='assure';return'assure'}
   tensionAdd(rand(1,4)*pressure,'ENEMY ORDER — POSTURE HOLDS UNDER ALERT');s.ai.last='hold';return'hold';}
 function aiTick(){return enemyCrisisAction(S)}
@@ -1108,9 +1218,9 @@ function finishRound(){
   if(s.phase!=='crisis')return;
   const stable=s.tension<58&&s.trust>34&&s.intel>28;if(stable)metric('resolution',rand(4,7));else metric('resolution',-rand(1,4));
   addLog(`ROUND ${String(s.crisisRound).padStart(2,'0')} RESULT — TENSION ${s.tension.toFixed(0)} · TRUST ${s.trust.toFixed(0)} · RESOLUTION ${s.resolution.toFixed(0)}`,stable?'ok':'sys');
-  if(s.strategicPhase===3&&s.standDownVerified&&s.resolution>=65&&s.tension<58&&s.trust>=45){s.over=true;s.phase='resolving';s.targets.clear();hud();peaceResolve();return}
-  const next=s.crisisRound+1;evaluateRoundGate(s,next);s.crisisRound=next;resolveCommunications(s,next);advanceForceReadiness(s,50);const directed=presidentialDecision(s);
-  if(next>s.maxCrisisRounds){if(s.tension<72&&s.trust>=40){stalemateResolve();return}s.tension=Math.max(90,s.tension);if(!s.launchWarningRound){s.launchWarningRound=next-1;s.ai.launchWarning=1;addLog('DEADLOCK — ENEMY RELEASE WARNING CONFIRMED','en')}}
+  const next=s.crisisRound+1;evaluateRoundGate(s,next);s.crisisRound=next;resolveCommunications(s,next);advanceForceReadiness(s,50);advanceStandDownForces(s);
+  if(mutualStandDownComplete(s)){const sd=standDownState(s);sd.completedRound=s.crisisRound;s.standDownVerified=true;s.over=true;s.phase='resolving';s.turnOwner='resolving';s.turnStage='resolve';s.endingCause='mutual-standdown';s.targets.clear();recordDecision(s,'mutual-standdown','Both sides acknowledged the agreement and all reversible forces verified safe.',{standDown:safeClone(sd)});hud();peaceResolve();return}
+  const directed=presidentialDecision(s);
   startPlayerTurn();if(directed)schedule(.05,()=>{if(S===s&&!s.over)openAuthCeremony()});}
 
 function startPlayerTurn(fromEntry=false){
@@ -1118,7 +1228,7 @@ function startPlayerTurn(fromEntry=false){
   addLog(`— ${s.war?'COMBAT ':'CRISIS '}ROUND ${String(s.war?s.combatRound:s.crisisRound).padStart(2,'0')} // YOUR TURN —`,'sys');
   advise('ONE ORDER AVAILABLE. REVIEW, STAGE, THEN COMMIT.','COMMAND',4);hud();
   if(!s.war&&!fromEntry&&s.crisisRound===3&&!s.scenarioBeatDone){scenarioBeat();return}
-  if(!s.war&&!fromEntry&&[5,9].includes(s.crisisRound)&&!s.roundEvents.has(s.crisisRound)){s.roundEvents.add(s.crisisRound);randomEvent();hud();}}
+  const eventRound=[5,9].includes(s.crisisRound)||(s.crisisRound>=13&&(s.crisisRound-1)%4===0);if(!s.war&&!fromEntry&&eventRound&&!s.roundEvents.has(s.crisisRound)){s.roundEvents.add(s.crisisRound);randomEvent();hud();}}
 
 /* ---------- INPUT ---------- */
 cv.addEventListener('click',e=>{
@@ -1257,16 +1367,23 @@ function draw(){
   cx.restore();}
 
 /* ---------- ENDINGS ---------- */
-async function stalemateResolve(){const s=S;if(!s||s.over)return;if(s.eventOpen)closeDecision(false,false);s.over=true;s.phase='resolving';s.timedOut=true;s.targets.clear();hud();
-  addLog('FINAL CRISIS ROUND — BOTH SIDES FREEZE FORCES IN PLACE','sys');mapLabel(W/2,H*.14,'*** UNEASY ARMISTICE ***','#ffb000',5);await sleep(1800);if(S!==s)return;startSimulation(true)}
 async function peaceResolve(){
-  const s=S;goodS();
+  const s=S;if(!s.endingCause)s.endingCause='mutual-standdown';goodS();
   addLog('CRISIS RESOLVED — FORCES STAND DOWN WORLDWIDE','ok');
   mapLabel(W/2,H*.14,'*** CRISIS RESOLVED ***','#39ff7a',5);
   await sleep(1800);if(S!==s)return;
   addLog('WOPR: CURIOUS. RUNNING THE SCENARIOS YOU DECLINED...','sys');
   await sleep(1100);if(S!==s)return;
   startSimulation(true);}
+function woprSimulationNames(){return[...SIM_NAMES]}
+async function woprDelay(s,ms,runId){
+  let remaining=REDUCED_MOTION?Math.min(ms,45):ms;while(remaining>0){if(S!==s||!s.wopr||s.wopr.runId!==runId||!s.wopr.active)return false;const step=Math.min(remaining,100);await sleep(s.paused?100:step);if(!s.paused)remaining-=step}return S===s&&s.wopr.runId===runId&&s.wopr.active;}
+async function runWoprMatrix(s=S){
+  if(!s||!s.wopr||!s.wopr.active)return false;const runId=s.wopr.runId,names=woprSimulationNames();s.wopr.total=names.length;s.wopr.index=0;s.sim=true;s.phase='simulation';s.turnOwner='wopr';s.turnStage='simulation';s.missiles=[];s.abms=[];s.blasts=[];s.flashes=[];$('simbanner').style.display='block';hud();
+  for(let i=0;i<names.length;i++){if(S!==s||s.wopr.runId!==runId||!s.wopr.active)return false;const n=names[i],test=String(i+1).padStart(2,'0'),total=String(names.length).padStart(2,'0');s.wopr.index=i+1;$('simname').textContent='SIMULATION: '+n;$('simres').textContent=`AUTONOMOUS WAR PLAN MATRIX // TEST ${test} OF ${total} · CALCULATING`;tone(700,.08,'square',.05);
+    for(let j=0;j<ri(6,12);j++){const origins=Math.random()<.5?s.you:s.foe,targets=Math.random()<.5?s.you:s.foe,a=pick(origins),b=pick(targets);if(!a||!b)continue;const[ax,ay]=px(a.lon,a.lat);fireMissile(ax,ay,b,Math.random()<.5,{dur:rand(.45,.9),silent:true,simulation:true})}
+    if(!await woprDelay(s,REDUCED_MOTION?20:680,runId))return false;$('simres').textContent=`TEST ${test} OF ${total} · OUTCOME: MUTUAL DESTRUCTION · WINNER: NONE`;tone(180,.25,'sawtooth',.06);if(!await woprDelay(s,REDUCED_MOTION?20:420,runId))return false;}
+  if(S!==s||s.wopr.runId!==runId)return false;s.wopr.complete=true;$('simname').textContent='ALL STRATEGIC SCENARIOS EXHAUSTED';$('simres').textContent='WINNING OUTCOMES: 0 · CONCLUSION: ESCALATION CANNOT PRODUCE VICTORY';recordDecision(s,'wopr-learning','All strategic scenarios exhausted. Winning outcomes: zero.',{tests:names.length,liveReleases:0,winner:'none'});if(!await woprDelay(s,REDUCED_MOTION?30:1500,runId))return false;s.wopr.active=false;s.missiles=[];s.abms=[];s.blasts=[];s.flashes=[];if(S===s)await endScreen(true);return true;}
 async function startSimulation(peaceful){
   const s=S;if(!s)return;s.sim=true;s.phase='simulation';s.missiles=[];s.abms=[];s.blasts=[];s.flashes=[];hud();
   $('simbanner').style.display='block';
@@ -1288,8 +1405,8 @@ function assessment(s,peaceful){
   const cities=s.you.filter(c=>c.dead).length+s.foe.filter(c=>c.dead).length,total=s.casY+s.casF,verified=s.evidenceReports.filter(r=>r.verified).length,protocol=s.decisionHistory.filter(e=>['origin-validated','directive-issued','termination-decision'].includes(e.type)).length;
   let score,outcome,grade;
   if(peaceful){score=s.timedOut?Math.round(300+s.objectiveBonuses*180+s.trust*3+s.intel+verified*45-Math.max(0,s.peakTension-55)*4):Math.round(700+s.objectiveBonuses*350+s.trust*5+s.intel*2+verified*70+protocol*20-Math.max(0,s.peakTension-55)*4-s.crisisRound*3);
-    outcome=s.timedOut?(s.objectiveBonuses?'UNEASY ARMISTICE':'DIPLOMATIC RETREAT'):s.trust>=68&&s.peakTension<82?'MUTUAL STAND-DOWN':s.objectiveBonuses>=2?'VERIFIED SETTLEMENT':'CRISIS CONTAINED';}
-  else{score=Math.round(Math.max(0,600-s.launchesY*80-cities*85-total*4+s.intercepts*35));outcome=cities<=2&&total<12?'LIMITED EXCHANGE CONTAINED':'MUTUAL ASSURED DESTRUCTION'}
+    outcome=s.endingCause==='wopr'?'W.O.P.R. LEARNING COMPLETE':s.timedOut?(s.objectiveBonuses?'UNEASY ARMISTICE':'DIPLOMATIC RETREAT'):s.endingCause==='mutual-standdown'?'MUTUAL STAND-DOWN':s.objectiveBonuses>=2?'VERIFIED SETTLEMENT':'CRISIS CONTAINED';}
+  else{score=Math.round(Math.max(0,600-s.launchesY*80-cities*85-total*4+s.intercepts*35));outcome=s.endingCause==='ceasefire'?'VERIFIED CEASEFIRE — EXCHANGE TERMINATED':cities<=2&&total<12?'LIMITED EXCHANGE CONTAINED':'MUTUAL ASSURED DESTRUCTION'}
   grade=score>=1600?'S — FALKEN':score>=1300?'A — STRATEGIST':score>=1000?'B — COMMAND':score>=700?'C — SURVIVOR':score>=400?'D — ESCALATION':'F — WINNER: NONE';
   return{score,outcome,grade,cities,total,verified,protocol};}
 function truthSummary(s){return s.scenarioKey==='able'?'THE EXERCISE WAS NOT AN ATTACK; ITS MESSAGE FORM WAS MISREAD AS POSSIBLE COVER.':s.scenarioKey==='arctic'?'INTERFERENCE AND A TIMING FAULT CREATED THE WARNING; NO ATTACK OCCURRED.':'THE CONVOY CARRIED NONSTRATEGIC MILITARY CARGO; WEATHER CAUSED THE CONTACT GAPS.'}
@@ -1303,9 +1420,21 @@ async function endScreen(peaceful){
   const msg=endingMessage();
   for(const ch of msg){et.textContent+=ch;if(ch!==' '&&ch!=='\n')key();await sleep(ch==='\n'?110:32);}
   await sleep(400);
-  if(S!==s)return;const a=assessment(s,peaceful),ach=[];
+  if(S!==s)return;const a=assessment(s,peaceful),ach=[],woprEnding=s.endingCause==='wopr';
   if(peaceful&&!s.timedOut)ach.push('THE ONLY WINNING MOVE');if(s.phantomsFound>=2)ach.push('GHOSTBUSTER');if(peaceful&&!s.timedOut&&s.peakTension<70)ach.push('COOL HEAD');if(s.intercepts>=3)ach.push('MISSILE COMMAND');
-  es.textContent=peaceful?
+  es.textContent=woprEnding?
+`────────────────────────────────────
+AFTER-ACTION DOSSIER // ${s.crisis}
+OUTCOME: ${a.outcome}
+W.O.P.R. MATRIX: ${s.wopr.index}/${s.wopr.total}
+LIVE RELEASES BY W.O.P.R.: 0
+WINNING OUTCOMES: 0   WINNER: NONE
+CONCLUSION: ESCALATION CANNOT PRODUCE VICTORY
+CRISIS ROUNDS BEFORE TRANSFER: ${s.crisisRound}
+EVIDENCE VERIFIED: ${a.verified}/${s.evidenceReports.length}   DECISION RECORDS: ${s.decisionHistory.length}
+COMMENDATIONS: ${ach.join(' · ')||'THE ONLY WINNING MOVE'}
+────────────────────────────────────`:
+peaceful?
 `────────────────────────────────────
 AFTER-ACTION DOSSIER // ${s.crisis}
 OUTCOME: ${a.outcome}
@@ -1332,12 +1461,12 @@ WINNER: NONE
   const report=buildDebrief(s),pivotal=report.pivotal.length?report.pivotal:report.timeline.filter(e=>e.type!=='operation-start').slice(-3);const history=$('endhistory');history.innerHTML='<strong>DECISION RECONSTRUCTION // WHAT WAS KNOWN THEN</strong><br>';
   for(const e of pivotal){const line=document.createElement('div'),known=e.knownThen||{};line.textContent=`ROUND ${String(e.round).padStart(2,'0')} · ${e.summary} [ASSESSMENT ${known.assessment||'UNRESOLVED'} · ATTACK ${confidenceBand(known.attack||0)}]`;history.appendChild(line)}
   const truth=document.createElement('div');truth.style.marginTop='8px';truth.innerHTML='<strong>KNOWN LATER:</strong> '+truthSummary(s);history.appendChild(truth);
-  const old=storedBest();if(!old||a.score>old.score){try{localStorage.setItem('wopr-crisis-best',JSON.stringify({score:a.score,grade:a.grade,scenario:s.crisis}))}catch(e){}}
+  const old=storedBest();if(!woprEnding&&(!old||a.score>old.score)){try{localStorage.setItem('wopr-crisis-best',JSON.stringify({score:a.score,grade:a.grade,scenario:s.crisis}))}catch(e){}}
   $('again').style.display='inline-flex';}
 $('again').onclick=()=>{blip();hideDecisionOverlays();S=null;$('log').innerHTML='';$('simbanner').style.display='none';$('eventbox').style.display='none';$('advisor').style.display='none';show('sides')};
 
 /* ---------- START ---------- */
-const briefingBackground=['mute','map','hud','advisor','log','controls','panel','eventbox','simbanner','pausebox','helpbox','authbox','evidencebox','conferencebox','terminationbox'];
+const briefingBackground=['mute','map','hud','advisor','log','controls','panel','eventbox','simbanner','pausebox','helpbox','authbox','evidencebox','conferencebox','woprbox','terminationbox'];
 function setBriefing(open){
   $('orders').style.display=open?'flex':'none';
   for(const id of briefingBackground){const el=$(id);if(el)el.inert=open;}}
@@ -1354,23 +1483,25 @@ $('pickUS').onclick=()=>{blip();begin('US')};
 $('pickSU').onclick=()=>{blip();begin('SU')};
 
 let helpWasPaused=false,pauseReturnFocus=null,helpReturnFocus=null;
-function pauseGame(force){const s=S;if(!s||(s.phase!=='crisis'&&s.phase!=='war'))return;const next=force===undefined?!s.paused:force;
+function pauseGame(force){const s=S;if(!s||(s.phase!=='crisis'&&s.phase!=='war'&&!(s.phase==='simulation'&&s.wopr&&s.wopr.active)))return;const next=force===undefined?!s.paused:force;
   if(next&&!s.paused)pauseReturnFocus=document.activeElement;s.paused=next;$('pausebox').style.display=next?'flex':'none';$('pauseBtn').textContent=next?'▶ RESUME':'Ⅱ PAUSE';lastT=performance.now();
   if(next)$('resumeBtn').focus();else{const focus=s.eventOpen?$('evYes'):pauseReturnFocus;pauseReturnFocus=null;hud();restoreFocus(focus,$('pauseBtn'));return}hud()}
-function hideDecisionOverlays(){setBriefing(false);setAuthBackground(false);setCommandOverlay('',false);for(const id of['authbox','evidencebox','conferencebox','terminationbox'])$(id).style.display='none'}
-function returnToMenu(){const s=S;if(s)s.phase='ending';hideDecisionOverlays();S=null;$('pausebox').style.display='none';$('helpbox').style.display='none';$('eventbox').style.display='none';$('advisor').style.display='none';$('simbanner').style.display='none';show('boot');renderGameMenu()}
+function hideDecisionOverlays(){setBriefing(false);setAuthBackground(false);setCommandOverlay('',false);for(const id of['authbox','evidencebox','conferencebox','woprbox','terminationbox'])$(id).style.display='none'}
+function returnToMenu(){const s=S;if(s){s.phase='ending';if(s.wopr){s.wopr.runId++;s.wopr.active=false;s.wopr.open=false}}hideDecisionOverlays();S=null;$('pausebox').style.display='none';$('helpbox').style.display='none';$('eventbox').style.display='none';$('advisor').style.display='none';$('simbanner').style.display='none';show('boot');renderGameMenu()}
 function openHelp(){if(!S)return;helpReturnFocus=document.activeElement;helpWasPaused=S.paused;S.paused=true;$('pausebox').style.display='none';$('helpbox').style.display='flex';$('helpClose').focus();lastT=performance.now()}
 function closeHelp(){$('helpbox').style.display='none';if(!S)return;S.paused=helpWasPaused;const focus=S.paused?$('resumeBtn'):S.eventOpen?$('evYes'):helpReturnFocus;helpReturnFocus=null;if(S.paused)$('pausebox').style.display='flex';$('pauseBtn').textContent=S.paused?'▶ RESUME':'Ⅱ PAUSE';lastT=performance.now();hud();restoreFocus(focus,$('pauseBtn'))}
 $('pauseBtn').onclick=()=>pauseGame();$('resumeBtn').onclick=()=>pauseGame(false);$('restartBtn').onclick=returnToMenu;$('helpBtn').onclick=openHelp;$('helpClose').onclick=closeHelp;
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&S&&!S.paused&&(S.phase==='crisis'||S.phase==='war'))pauseGame(true)});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&S&&!S.paused&&(S.phase==='crisis'||S.phase==='war'||(S.phase==='simulation'&&S.wopr&&S.wopr.active)))pauseGame(true)});
 function trapOverlay(id,e){if(e.key!=='Tab')return false;const items=[...$(id).querySelectorAll('button:not(:disabled),input:not(:disabled)')];if(!items.length)return false;const at=Math.max(0,items.indexOf(document.activeElement)),next=(at+(e.shiftKey?-1:1)+items.length)%items.length;items[next].focus();e.preventDefault();return true}
 document.addEventListener('keydown',e=>{if(e.repeat)return;const k=e.key.toLowerCase();
+  if(soundGateOpen){if(e.key==='Escape')$('soundSilent').click();else if(trapOverlay('soundGate',e))return;else return;e.preventDefault();return}
   if($('boot').classList.contains('active')){if(bootChoiceReady&&k==='1'){$('menuWar').click();e.preventDefault()}else if(bootChoiceReady&&k==='2'){$('menuTtt').click();e.preventDefault()}return}
   if($('sides').classList.contains('active')){if(k==='1'){$('pickUS').click();e.preventDefault()}else if(k==='2'){$('pickSU').click();e.preventDefault()}return}
   if(!S)return;
   if(S.phase==='briefing'&&$('orders').style.display==='flex'){if(e.key==='Tab'){$('ordersGo').focus();e.preventDefault()}return}
   if(S.evidenceOpen&&$('evidencebox').style.display==='flex'){if(e.key==='Escape'||k==='e')closeEvidenceBoard();else if(k==='v')stageEvidenceSelection();else if(trapOverlay('evidencebox',e))return;else return;e.preventDefault();return}
   if(S.conference.open&&$('conferencebox').style.display==='flex'){if(e.key==='Escape')$('conferenceMore').click();else if(trapOverlay('conferencebox',e))return;else return;e.preventDefault();return}
+  if(S.wopr&&S.wopr.open&&$('woprbox').style.display==='flex'){if(e.key==='Escape')$('woprCancel').click();else if(e.key==='Enter')(document.activeElement===$('woprCancel')?$('woprCancel'):$('woprConfirm')).click();else if(trapOverlay('woprbox',e))return;else return;e.preventDefault();return}
   if(S.termination.open&&$('terminationbox').style.display==='flex'){if(e.key==='Escape')$('terminationHold').click();else if(trapOverlay('terminationbox',e))return;else return;e.preventDefault();return}
   if(S.authOpen&&$('authbox').style.display==='flex'){
     if(e.key==='Escape'){$('authAbort').click();e.preventDefault();return}
@@ -1382,8 +1513,9 @@ document.addEventListener('keydown',e=>{if(e.repeat)return;const k=e.key.toLower
   if(S.eventOpen){if(k==='m')$('mute').click();else if(k==='?'||e.key==='/')openHelp();else if(k==='p')pauseGame(true);else if(k==='y'||k==='1')$('evYes').click();else if(k==='n'||k==='2'||e.key==='Escape')$('evNo').click();else if(e.key==='Tab'){(document.activeElement===$('evYes')?$('evNo'):$('evYes')).focus()}else return;e.preventDefault();return}
   if(k==='m'){$('mute').click();e.preventDefault();return}if(k==='?'||e.key==='/'){openHelp();e.preventDefault();return}
   if(e.key==='Escape'||k==='p'){pauseGame();e.preventDefault();return}
-  if(S.paused)return;if(e.key==='Enter'){commitStagedOrder();e.preventDefault();return}const actions={e:openEvidenceBoard,h:()=> $('bDiplo').click(),v:()=> $('bIntel').click(),n:()=> $('bStand').click(),c:()=> $('bCivil').click(),s:()=> $('bSubs').click(),b:()=> $('bBomb').click(),o:()=> $('bHold').click(),a:()=> $('bAuth').click(),t:cycleTarget,i:interceptNext,l:requestLaunch,'1':()=>setTargetMode('force')};
+  if(S.paused)return;if(e.key==='Enter'){commitStagedOrder();e.preventDefault();return}const actions={e:openEvidenceBoard,h:()=> $('bDiplo').click(),v:()=> $('bIntel').click(),n:()=> $('bStand').click(),c:()=> $('bCivil').click(),s:()=> $('bSubs').click(),b:()=> $('bBomb').click(),o:()=> $('bHold').click(),a:()=> $('bAuth').click(),w:()=> $('bWopr').click(),t:cycleTarget,i:interceptNext,l:requestLaunch,'1':()=>setTargetMode('force')};
   if(actions[k]){actions[k]();e.preventDefault()}});
+initSoundGate();
 boot();
 </script>
 </body>
